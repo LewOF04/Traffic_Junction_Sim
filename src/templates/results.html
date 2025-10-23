@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel = "stylesheet" href = "static/styles.css" />
+    
+
+
+    <title>Results</title>
+</head>
+<body>
+    <div class="top-bar">
+        <h1>Junction Simulator</h1>
+    </div>
+    <div class="body-container center-container">
+        <h2 class = "h2-center">Efficiency Score: {{current_efficiency_score}}%</h2>
+    </div>
+    <p></p>
+    <div class="body-container">
+        <h2 class = "h2-center">Comparison to Junctions with Same Input VPH</h2>
+        <p>
+        <p>
+        <form action = "\results" method = "POST">
+            <table>
+                <tr>
+                    <th>Junction</th>
+                    <th>Efficiency Score</th>
+                    <th>View Junction</th>
+                </tr>
+                {% for i in range(past_5_efficiency_scores | length) %}
+                <tr>
+                    <td>Previous Junction {{i + 1}}</td>
+                    <td>{{ past_5_efficiency_scores[i] }}</td>
+                    <td><input type="submit" name = "view_junction" value="Junction {{ i + 1 }}" class = "junctionData"/> </td>
+                    
+                </tr>
+                {% endfor %}
+            </table>
+        </form>
+        <p></p>
+        <p></p>
+        <p></p>
+        {% if pedestrian_crossing %}
+        <div class = "body-container" id = "notes">
+            <h4>Notes: Please note, that you have used a pedestrian crossing. The use of these crossings results in the efficiency of the junction decreasing as cars will pile up 
+                as pedestrians cross. However, in populated areas, this trade-off is necessary. Pedestrians must be allowed to cross! So please ensure to balance high-efficiency with usability.
+            </h4>
+        </div>
+        {% endif %}
+        {% if bus_lane %}
+        <div class = "body-container" id = "notes">
+            <h4>Notes: Please note, that bus lanes also decrease the efficiency score as cars are not allowed to go on them. That being said, they have the benefit of 
+                helping the people who paid for the bus!
+            </h4>
+        </div>
+        {% endif %}
+                
+    </div>
+    <form action = "\download_report" method = "POST">
+    <div class = "final-buttons">
+        <input type="hidden" name="how_far_back" value="{{ how_far_back }}">
+        <input type="submit" name = "Download an In-Depth Evaluation Report to Downnloads Folder" value="Download an In-Depth Evaluation Report to Downloads Folder" class="final-button">
+        
+        <a href="{{ url_for('index') }}" class="final-button">Run a New Simulation</a>
+    </form>
+    </div>
+
+    
+
+</body>
+</html>

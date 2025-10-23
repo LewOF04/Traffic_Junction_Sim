@@ -1,0 +1,843 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <link rel = "stylesheet" href = "static/styles.css" />
+
+</head>
+<body>
+        <div class="top-bar">
+            <h1>Junction Simulator</h1>
+        </div>
+    
+        <div class = "center-text">
+            <h2>Input Parameters</h2>
+        </div>
+
+        <div class="body-container">
+            <h3 class = "center-text">Section 1: Northbound Traffic Flow</h3>
+            <form action = "\" method = "POST">
+            <div class = "sub-box">     
+                <p> <input type="text" name="northbound_vph" placeholder="Enter Northbound Traffic Flow" class = "main-input" required> </p>
+                <div class = "sub-button-holder">
+                    <div class = "center-text">
+                        <input type="text" name="northbound_north_exit" placeholder="Enter VPH Exiting North" class = "sub-input" required> 
+                        
+                        <input type="text" name="northbound_east_exit" placeholder="Enter VPH Exiting East" class = "sub-input" required> 
+                        
+                        <input type="text" name="northbound_west_exit" placeholder="Enter VPH Exiting West" class = "sub-input" required>
+                    </div>
+                    {% if errors.northbound_vph %}
+                        <div class="errorF">
+                            {{errors.northbound_vph}}
+                        </div>
+                    {% endif %}
+                    {% if errors.northbound_north_exit %}
+                            <div class="errorF">
+                                {{errors.northbound_north_exit}}
+                            </div>
+                    {% endif %}
+
+                    {% if errors.northbound_east_exit %}
+                        <div class="errorF">
+                            {{errors.northbound_east_exit}}
+                        </div>
+                    {% endif %}
+                    {% if errors.northbound_west_exit %}
+                        <div class="errorF">
+                            {{errors.northbound_west_exit}}
+                        </div>
+                    {% endif %}
+                    {% if errors.northbound_exits %}
+                        <div class="errorF">
+                            {{errors.northbound_exits}}
+                        </div>
+                    {% endif %} 
+                    <p></p>
+                    <p class = "mini-heading">Do you have any preferred lanes?</p>
+                    <div class = "options-container">
+                        <div class = "section">
+                            <input name = "north_bus_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Bus Lane </label>
+                        </div>
+                        <div class = "section">
+                            <input name = "north_cycle_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true" value="true">
+                            <label class = ""> Cycle Lane </label>
+                            
+                        </div>
+                        <div class = "section">
+                            <input name = "north_left_right_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Left-Right Lane </label>
+                        </div>
+
+    
+                        <div class = "section">
+                            <input name = "north_left_right_straight_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Left-Right-Straight Lane </label>
+                        </div>
+
+
+                        <div>
+                            <select name="north_left_lane_count" class = "dropdown">
+                                <option value="0">-</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                              </select>
+                            <label for="browser" class = "space">Left Lane</label>
+                        </div>
+
+                        <div>
+                            <select name="north_right_lane_count" class = "dropdown">
+                                <option value="0">-</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                              </select>
+                            <label for="browser">Right Lane</label>
+                            
+                        </div>
+
+
+                        <div>
+                            <input name = "north_straight_right_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Straight Right Lane </label>
+                        </div>
+                    
+
+                        <div>
+                            <input name = "north_straight_left_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Straight Left Lane </label>
+                        </div>
+
+                        <div>
+                            <select name="north_straight_lane_count" id="cars" class = "dropdown">
+                                <option value="0">-</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                              </select>
+                            <label for="browser">Straight Lane</label>
+                            
+                        </div>
+                        <div class = "section">
+                            <input type="text" name="north_buses_per_hour" placeholder="" class = "duration-input">  
+                            <label class = ""> Buses/Cyclist Per Hour </label>
+                        </div>
+                    </div>
+                    <p></p>
+
+                    {% if errors.north_cycle_lane %}
+                        <div class="errorF">
+                            {{errors.north_cycle_lane}}
+                        </div>
+                    {% endif %}
+
+                    {% if errors.north_left_right_lane %}
+                        <div class="errorF">
+                            {{errors.north_left_right_lane}}
+                        </div>
+                    {% endif %}
+                    {% if errors.north_left_right_straight_lane %}
+                        <div class="errorF">
+                            {{errors.north_left_right_straight_lane}}
+                        </div>
+                    {% endif %}
+
+                    {% if errors.north_left_lane %}
+                        <div class="errorF">
+                            {{errors.north_left_lane}}
+                        </div>
+                    {% endif %}
+                    {% if errors.north_right_lane %}
+                        <div class="errorF">
+                            {{errors.north_right_lane}}
+                        </div>
+                    {% endif %}
+                    {% if errors.north_straight_lane %}
+                        <div class="errorF">
+                            {{errors.north_straight_lane}}
+                        </div>
+                    {% endif %}
+                    {% if errors.north_buses_per_hour %}
+                         <div class="errorF">
+                            {{errors.north_buses_per_hour}}
+                        </div>
+                    {% endif %}
+
+                    <p class = "mini-heading">Would you like to configure any of the following?</p>
+                    <div class = "options-container">
+                        <div>
+                            <select name="north_priority" class = "dropdown">
+                                <option value="0">-</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                              </select>
+                            <label for="browser" class = "space">Priority</label>
+                        </div>
+
+                        <div class = "section">
+                            <input name = "north_pedestrian_crossing" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Pedestrian Crossing (All directions) </label>
+                            
+                        </div>
+                        <div class = "section">
+                            <input type="text" name="crossing_requests_PH" placeholder="" class = "duration-input">  
+                            <label class = ""> Crossing Requests Per Hour </label>
+                        </div>
+                        <div class = "section">
+                            <input type="text" name="duration" placeholder="" class = "duration-input">  
+                            <label class = ""> Duration </label>
+                        </div>
+                        
+                                        
+                    </div>
+                    {% if errors.north_total_lane_count %}
+                        <div class="errorF">
+                            {{errors.north_total_lane_count}}
+                        </div>
+                    {% endif %}
+                    {% if errors.priority_duplicate %}
+                        <div class="errorF">
+                            {{errors.priority_duplicate}}
+                        </div>
+                    {% endif %}
+                    {% if errors.duration %}
+                        <div class="errorF">
+                            {{errors.duration}}
+                        </div>
+                    {% endif %}
+                    {% if errors.crossing_requests %}
+                        <div class="errorF">
+                            {{errors.crossing_requests}}
+                        </div>
+                    {% endif %}
+                </div>     
+            
+            </div>
+            <p></p>
+            <h3 class = "center-text">Section 2: Eastbound Traffic Flow</h3>
+            <div class = "sub-box">     
+                <p> <input type="text" name="eastbound_vph" placeholder="Enter Eastbound Traffic Flow" class = "main-input" required> </p>
+                
+                <div class = "sub-button-holder">
+                    <div class = "center-text">
+                        <input type="text" name="eastbound_north_exit" placeholder="Enter VPH Exiting North" class = "sub-input" required> 
+                        
+                        <input type="text" name="eastbound_east_exit" placeholder="Enter VPH Exiting East" class = "sub-input" required>  
+
+                        <input type="text" name="eastbound_south_exit" placeholder="Enter VPH Exiting South" class = "sub-input" required>
+
+                    </div>
+                    {% if errors.eastbound_vph %}
+                        <div class="errorF">
+                            {{errors.eastbound_vph}}
+                        </div>
+                    {% endif %}
+                    {% if errors.eastbound_north_exit %}
+                        <div class="errorF">
+                            {{errors.eastbound_north_exit}}
+                        </div>
+                    {% endif %}
+                    {% if errors.eastbound_east_exit %}
+                        <div class="errorF">
+                            {{errors.eastbound_east_exit}}
+                        </div>
+                    {% endif %}
+                    {% if errors.eastbound_south_exit %}
+                        <div class="errorF">
+                            {{errors.eastbound_south_exit}}
+                        </div>
+                    {% endif %} 
+                    
+                    {% if errors.eastbound_exits %}
+                        <div class="errorF">
+                            {{errors.eastbound_exits}}
+                        </div>
+                    {% endif %}
+
+                    <p></p>
+                    <p class = "mini-heading">Do you have any preferred lanes?</p>
+                    <div class = "options-container">
+                        <div class = "section">
+                            <input name = "east_bus_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Bus Lane </label>
+
+                        </div>
+                        <div class = "section">
+                            <input name = "east_cycle_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Cycle Lane </label>
+                        </div>
+    
+                        <div class = "section">
+                            <input name = "east_left_right_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Left-Right Lane </label>
+
+                        </div>
+    
+                        <div class = "section">
+                            <input name = "east_left_right_straight_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Left-Right-Straight Lane </label>
+
+                        </div>
+
+                        <div>
+                            <select name="east_left_lane_count" class = "dropdown">
+                                <option value="0">-</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                              </select>
+                            <label for="browser" class = "space">Left Lane</label>
+
+                        </div>
+
+                        <div>
+                            <select name="east_right_lane_count" class = "dropdown">
+                                <option value="0">-</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                              </select>
+                            <label for="browser">Right Lane</label>
+
+                        </div>
+
+                        <div>
+                            <input name = "east_straight_right_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Straight Right Lane </label>
+                        </div>
+                    
+
+                        <div>
+                            <input name = "east_straight_left_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Straight Left Lane </label>
+                        </div>
+
+                        <div>
+                            <select name="east_straight_lane_count" id="cars" class = "dropdown">
+                                <option value="0">-</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                              </select>
+                            <label for="browser">Straight Lane</label>
+                        </div>
+                        <div class = "section">
+                            <input type="text" name="east_buses_per_hour" placeholder="" class = "duration-input">  
+                            <label class = ""> Buses/Cyclist Per Hour </label>
+                        </div>
+                    </div>
+                    <p></p>
+                    
+                    {% if errors.east_cycle_lane %}
+                        <div class="errorF">
+                            {{errors.east_cycle_lane}}
+                        </div>
+                    {% endif %}
+                    {% if errors.east_left_right_lane %}
+                        <div class="errorF">
+                            {{errors.east_left_right_lane}}
+                        </div>
+                    {% endif %}
+                    {% if errors.east_left_right_straight_lane %}
+                        <div class="errorF">
+                            {{errors.east_left_right_straight_lane}}
+                        </div>
+                    {% endif %}
+                    {% if errors.east_left_lane %}
+                        <div class="errorF">
+                            {{errors.east_left_lane}}
+                        </div>
+                    {% endif %}
+                    {% if errors.east_right_lane %}
+                        <div class="errorF">
+                            {{errors.east_right_lane}}
+                        </div>
+                    {% endif %}
+                    {% if errors.east_straight_lane %}
+                        <div class="errorF">
+                            {{errors.east_straight_lane}}
+                        </div>
+                    {% endif %}
+                    {% if errors.east_buses_per_hour %}
+                        <div class="errorF">
+                            {{errors.east_buses_per_hour}}
+                        </div>
+                    {% endif %}
+
+                    <p class = "mini-heading">Would you like to configure any of the following?</p>
+                    <div class = "options-container">
+
+                        <div>
+                            <select name="east_priority" class = "dropdown">
+                                <option value="0">-</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                              </select>
+                            <label for="browser" class = "space">Priority</label>
+                        </div>
+                    </div>
+                    {% if errors.east_total_lane_count %}
+                    <div class="errorF">
+                        {{errors.east_total_lane_count}}
+                    </div>
+                    {% endif %}
+                    {% if errors.priority_duplicate %}
+                    <div class="errorF">
+                        {{errors.priority_duplicate}}
+                    </div>
+                    {% endif %}
+
+
+                </div>
+
+                
+
+             
+            
+            
+            </div>
+            <p></p>
+            <h3 class = "center-text">Section 3: Southbound Traffic Flow</h3>
+            <div class = "sub-box">     
+                <p> <input type="text" name="southbound_vph" placeholder="Enter Southbound Traffic Flow" class = "main-input" required> </p>
+                
+                <div class = "sub-button-holder">
+                    <div class = "center-text">
+                        <input type="text" name="southbound_east_exit" placeholder="Enter VPH Exiting East" class = "sub-input" required>
+
+                        <input type="text" name="southbound_west_exit" placeholder="Enter VPH Exiting West" class = "sub-input" required>
+
+                        <input type="text" name="southbound_south_exit" placeholder="Enter VPH Exiting South" class = "sub-input" required>  
+
+                    </div>
+                    {% if errors.southbound_vph %}
+                        <div class="errorF">
+                            {{ errors.southbound_vph }}
+                        </div>
+                    {% endif %}
+
+                    {% if errors.southbound_east_exit %}
+                        <div class="errorF">
+                            {{ errors.southbound_east_exit }}
+                        </div>
+                    {% endif %}
+
+                    {% if errors.southbound_west_exit %}
+                        <div class="errorF">
+                            {{ errors.southbound_west_exit }}
+                        </div>
+                    {% endif %}
+
+                    {% if errors.southbound_south_exit %}
+                        <div class="errorF">
+                            {{ errors.southbound_south_exit }}
+                        </div>
+                    {% endif %}
+
+                    {% if errors.southbound_exits %}
+                        <div class="errorF">
+                            {{ errors.southbound_exits }}
+                        </div>
+                    {% endif %}
+
+                    <p></p>
+                    <p class = "mini-heading">Do you have any preferred lanes?</p>
+                    <div class = "options-container">
+                        <div class = "section">
+                            <input name = "south_bus_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Bus Lane </label>
+                            
+                        </div>
+                        <div class = "section">
+                            <input name = "south_cycle_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Cycle Lane </label>
+                        </div>
+    
+                        <div class = "section">
+                            <input name = "south_left_right_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Left-Right Lane </label>
+                        </div>
+    
+                        <div class = "section">
+                            <input name = "south_left_right_straight_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Left-Right-Straight Lane </label>
+
+                        </div>
+
+                        <div>
+                            <select name="south_left_lane_count" class = "dropdown">
+                                <option value="0">-</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                              </select>
+                            <label for="browser" class = "space">Left Lane</label>
+                        </div>
+
+                        <div>
+                            <select name="south_right_lane_count" class = "dropdown">
+                                <option value="0">-</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                              </select>
+                            <label for="browser">Right Lane</label>
+
+                        </div>
+
+                        <div>
+                            <input name = "south_straight_right_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Straight Right Lane </label>
+                        </div>
+                    
+                        <div>
+                            <input name = "south_straight_left_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Straight Left Lane </label>
+                        </div>
+
+                        <div>
+                            <select name="south_straight_lane_count" id="cars" class = "dropdown">
+                                <option value="0">-</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                              </select>
+                            <label for="browser">Straight Lane</label>
+
+                        </div>
+                        <div class = "section">
+                            <input type="text" name="south_buses_per_hour" placeholder="" class = "duration-input">  
+                            <label class = ""> Buses/Cyclist Per Hour </label>
+
+                        </div>
+                    </div>
+                    <p></p>
+                    {% if errors.south_cycle_lane %}
+                        <div class="errorF">
+                            {{ errors.south_cycle_lane }}
+                        </div>
+                    {% endif %}
+
+                    {% if errors.south_left_right_lane %}
+                        <div class="errorF">
+                            {{ errors.south_left_right_lane }}
+                        </div>
+                    {% endif %}
+
+                    {% if errors.south_left_right_straight_lane %}
+                        <div class="errorF">
+                            {{ errors.south_left_right_straight_lane }}
+                        </div>
+                    {% endif %}
+
+                    {% if errors.south_left_lane %}
+                        <div class="errorF">
+                            {{ errors.south_left_lane }}
+                        </div>
+                    {% endif %}
+
+                    {% if errors.south_right_lane %}
+                        <div class="errorF">
+                            {{ errors.south_right_lane }}
+                        </div>
+                    {% endif %}
+
+                    {% if errors.south_straight_lane %}
+                        <div class="errorF">
+                            {{ errors.south_straight_lane }}
+                        </div>
+                    {% endif %}
+
+                    {% if errors.south_buses_per_hour %}
+                        <div class="errorF">
+                            {{ errors.south_buses_per_hour }}
+                        </div>
+                    {% endif %}
+
+
+                    <p class = "mini-heading">Would you like to configure any of the following?</p>
+                    <div class = "options-container">
+
+                        <div>
+                            <select name="south_priority" class = "dropdown">
+                                <option value="0">-</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                              </select>
+                            <label for="browser" class = "space">Priority</label>
+                        </div>
+                    </div>
+                    {% if errors.south_total_lane_count %}
+                        <div class="errorF">
+                            {{errors.south_total_lane_count}}
+                        </div>
+                    {% endif %}
+                    {% if errors.priority_duplicate %}
+                        <div class="errorF">
+                            {{errors.priority_duplicate}}
+                        </div>
+                    {% endif %}
+
+
+                </div>
+
+            
+            
+            </div>
+            <p></p>
+            <h3 class = "center-text">Section 4: Westbound Traffic Flow</h3>
+            <div class = "sub-box">     
+                <p> <input type="text" name="westbound_vph" placeholder="Enter Westbound Traffic Flow" class = "main-input" required> </p>
+                
+                <div class = "sub-button-holder">
+                    <div class = "center-text">
+                        <input type="text" name="westbound_north_exit" placeholder="Enter VPH Exiting North" class = "sub-input" required> 
+                        
+                        <input type="text" name="westbound_west_exit" placeholder="Enter VPH Exiting West" class = "sub-input" required>
+
+                        <input type="text" name="westbound_south_exit" placeholder="Enter VPH Exiting South" class = "sub-input" required>
+
+                        
+                    </div>
+                    {% if errors.westbound_vph %}
+                        <div class="errorF">
+                            {{ errors.westbound_vph }}
+                        </div>
+                    {% endif %}
+
+                    {% if errors.westbound_north_exit %}
+                        <div class="errorF">
+                            {{ errors.westbound_north_exit }}
+                        </div>
+                    {% endif %}
+
+                    {% if errors.westbound_west_exit %}
+                        <div class="errorF">
+                            {{ errors.westbound_west_exit }}
+                        </div>
+                    {% endif %}
+
+                    {% if errors.westbound_south_exit %}
+                        <div class="errorF">
+                            {{ errors.westbound_south_exit }}
+                        </div>
+                    {% endif %}
+
+                    {% if errors.westbound_exits %}
+                        <div class="errorF">
+                            {{ errors.westbound_exits }}
+                        </div>
+                    {% endif %}
+
+                    
+                    
+                    <p></p>
+                    <p class = "mini-heading">Do you have any preferred lanes?</p>
+                    <div class = "options-container">
+                        <div class = "section">
+                            <input name = "west_bus_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Bus Lane </label>
+                        </div>
+                        <div class = "section">
+                            <input name = "west_cycle_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Cycle Lane </label>
+                        </div>
+    
+                        <div class = "section">
+                            <input name = "west_left_right_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Left-Right Lane </label>
+
+                        </div>
+    
+                        <div class = "section">
+                            <input name = "west_left_right_straight_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Left-Right-Straight Lane </label>
+
+                        </div>
+
+                        <div>
+                            <select name="west_left_lane_count" class = "dropdown">
+                                <option value="0">-</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                              </select>
+                            <label for="browser" class = "space">Left Lane</label>
+
+                        </div>
+
+                        <div>
+                            <select name="west_right_lane_count" class = "dropdown">
+                                <option value="0">-</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                              </select>
+                            <label for="browser">Right Lane</label>
+
+                        </div>
+
+                        <div>
+                            <input name = "west_straight_right_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Straight Right Lane </label>
+                        </div>
+                    
+
+                        <div>
+                            <input name = "west_straight_left_lane" type="checkbox" class="custom-checkbox" id="purple-checkbox" value="true">
+                            <label class = ""> Straight Left Lane </label>
+                        </div>
+
+                        <div>
+                            <select name="west_straight_lane_count" id="cars" class = "dropdown">
+                                <option value="0">-</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                              </select>
+                            <label for="browser">Straight Lane</label>
+
+                        </div>
+                        <div class = "section">
+                            <input type="text" name="west_buses_per_hour" placeholder="" class = "duration-input">  
+                            <label class = ""> Buses/Cyclist Per Hour </label>
+
+                        </div>
+                    </div>
+                    <p></p>
+                    {% if errors.west_cycle_lane %}
+                        <div class="errorF">
+                            {{ errors.west_cycle_lane }}
+                        </div>
+                    {% endif %}
+
+                    {% if errors.west_left_right_lane %}
+                        <div class="errorF">
+                            {{ errors.west_left_right_lane }}
+                        </div>
+                    {% endif %}
+
+                    {% if errors.west_left_right_straight_lane %}
+                        <div class="errorF">
+                            {{ errors.west_left_right_straight_lane }}
+                        </div>
+                    {% endif %}
+
+                    {% if errors.west_left_lane %}
+                        <div class="errorF">
+                            {{ errors.west_left_lane }}
+                        </div>
+                    {% endif %}
+
+                    {% if errors.west_right_lane %}
+                        <div class="errorF">
+                            {{ errors.west_right_lane }}
+                        </div>
+                    {% endif %}
+
+                    {% if errors.west_straight_lane %}
+                        <div class="errorF">
+                            {{ errors.west_straight_lane }}
+                        </div>
+                    {% endif %}
+
+                    {% if errors.west_buses_per_hour %}
+                        <div class="errorF">
+                            {{ errors.west_buses_per_hour }}
+                        </div>
+                    {% endif %}
+
+
+                    <p class = "mini-heading">Would you like to configure any of the following?</p>
+                    <div class = "options-container">
+                        <div>
+                            <select name="west_priority" class = "dropdown">
+                                <option value="0">-</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                              </select>
+                            <label for="browser" class = "space">Priority</label>
+                        </div>
+
+                        
+                    </div>
+                    {% if errors.west_total_lane_count %}
+                        <div class="errorF">
+                            {{ errors.west_total_lane_count }}
+                        </div>
+                    {% endif %}
+
+                    {% if errors.priority_duplicate %}
+                        <div class="errorF">
+                            {{ errors.priority_duplicate }}
+                        </div>
+                    {% endif %}
+
+
+
+                </div>
+
+                
+
+            
+            
+            
+            
+            </div>
+            <p></p>
+            <p></p>
+            <p></p>
+            <div class = "center-text">
+                <input type="submit" value="Submit" class = "submit">
+            </div>
+            
+        </form>
+        
+        </div>
+
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+</body>
+</html>
