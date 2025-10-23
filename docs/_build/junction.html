@@ -1,0 +1,294 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>junction module &mdash; Traffic Wizard 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="lane module" href="lane.html" />
+    <link rel="prev" title="direction module" href="direction.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Traffic Wizard
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="app.html">app module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="db_functions.html">db_functions package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="direction.html">direction module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">junction module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#junction.Junction"><code class="docutils literal notranslate"><span class="pre">Junction</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#junction.Junction.directions"><code class="docutils literal notranslate"><span class="pre">Junction.directions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#junction.Junction.priorityNums"><code class="docutils literal notranslate"><span class="pre">Junction.priorityNums</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#junction.Junction.isPedestrianCrossing"><code class="docutils literal notranslate"><span class="pre">Junction.isPedestrianCrossing</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#junction.Junction.pedCrossPH"><code class="docutils literal notranslate"><span class="pre">Junction.pedCrossPH</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#junction.Junction.lastCrossingTime"><code class="docutils literal notranslate"><span class="pre">Junction.lastCrossingTime</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#junction.Junction.trafficSpeed"><code class="docutils literal notranslate"><span class="pre">Junction.trafficSpeed</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#junction.Junction.pedestrianCrossingTime"><code class="docutils literal notranslate"><span class="pre">Junction.pedestrianCrossingTime</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#junction.Junction.minimumGreenTime"><code class="docutils literal notranslate"><span class="pre">Junction.minimumGreenTime</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#junction.Junction.vehicleLength"><code class="docutils literal notranslate"><span class="pre">Junction.vehicleLength</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#junction.Junction.__init__"><code class="docutils literal notranslate"><span class="pre">Junction.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#junction.Junction.distributeVehicles"><code class="docutils literal notranslate"><span class="pre">Junction.distributeVehicles()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#junction.Junction.calculateDirectionPriority"><code class="docutils literal notranslate"><span class="pre">Junction.calculateDirectionPriority()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">Junction.calculateDirectionPriority()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">Junction.distributeVehicles()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="lane.html">lane module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation.html">simulation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="txt_creation.html">txt_creation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vehicle.html">vehicle module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Traffic Wizard</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">src</a></li>
+      <li class="breadcrumb-item active">junction module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/junction.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-junction">
+<span id="junction-module"></span><h1>junction module<a class="headerlink" href="#module-junction" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="junction.Junction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">junction.</span></span><span class="sig-name descname"><span class="pre">Junction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputInformation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/junction.html#Junction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#junction.Junction" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The class object containing all of the junction information</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="junction.Junction.directions">
+<span class="sig-name descname"><span class="pre">directions</span></span><a class="headerlink" href="#junction.Junction.directions" title="Link to this definition"></a></dt>
+<dd><p>a dictionary containing all of the direction objects within the junction</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="junction.Junction.priorityNums">
+<span class="sig-name descname"><span class="pre">priorityNums</span></span><a class="headerlink" href="#junction.Junction.priorityNums" title="Link to this definition"></a></dt>
+<dd><p>an array containing the priority of each direction [North, East, South, West] in a range 1-4</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="junction.Junction.isPedestrianCrossing">
+<span class="sig-name descname"><span class="pre">isPedestrianCrossing</span></span><a class="headerlink" href="#junction.Junction.isPedestrianCrossing" title="Link to this definition"></a></dt>
+<dd><p>whether or not this junction has a pedestrain crossing</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="junction.Junction.pedCrossPH">
+<span class="sig-name descname"><span class="pre">pedCrossPH</span></span><a class="headerlink" href="#junction.Junction.pedCrossPH" title="Link to this definition"></a></dt>
+<dd><p>the number of pedestrian crossings that occur within an hour</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="junction.Junction.lastCrossingTime">
+<span class="sig-name descname"><span class="pre">lastCrossingTime</span></span><a class="headerlink" href="#junction.Junction.lastCrossingTime" title="Link to this definition"></a></dt>
+<dd><p>the time that the last pedestrian crossing occured within the junction (during simulation)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="junction.Junction.trafficSpeed">
+<span class="sig-name descname"><span class="pre">trafficSpeed</span></span><a class="headerlink" href="#junction.Junction.trafficSpeed" title="Link to this definition"></a></dt>
+<dd><p>the speed of the traffic in m/s</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="junction.Junction.pedestrianCrossingTime">
+<span class="sig-name descname"><span class="pre">pedestrianCrossingTime</span></span><a class="headerlink" href="#junction.Junction.pedestrianCrossingTime" title="Link to this definition"></a></dt>
+<dd><p>the time of a pedestrian crossing in seconds</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="junction.Junction.minimumGreenTime">
+<span class="sig-name descname"><span class="pre">minimumGreenTime</span></span><a class="headerlink" href="#junction.Junction.minimumGreenTime" title="Link to this definition"></a></dt>
+<dd><p>the minimum amount of time that a green light is on</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="junction.Junction.vehicleLength">
+<span class="sig-name descname"><span class="pre">vehicleLength</span></span><a class="headerlink" href="#junction.Junction.vehicleLength" title="Link to this definition"></a></dt>
+<dd><p>the average length of a vehicle in metres</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="junction.Junction.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputInformation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/junction.html#Junction.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#junction.Junction.__init__" title="Link to this definition"></a></dt>
+<dd><p>initialises the Junction object</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="junction.Junction.distributeVehicles">
+<span class="sig-name descname"><span class="pre">distributeVehicles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/junction.html#Junction.distributeVehicles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#junction.Junction.distributeVehicles" title="Link to this definition"></a></dt>
+<dd><p>distributes vehicles within each direction to the lanes</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="junction.Junction.calculateDirectionPriority">
+<span class="sig-name descname"><span class="pre">calculateDirectionPriority</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/junction.html#Junction.calculateDirectionPriority"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#junction.Junction.calculateDirectionPriority" title="Link to this definition"></a></dt>
+<dd><p>given the distribution of traffic calculate the priority for each direction</p>
+</dd></dl>
+
+<p class="rubric">Notes</p>
+<p>pedCrossPH, lastCrossingTime and pedestrianCrossingTime are only set if isPedestrianCrossing is equal to True.
+trafficSpeed, pedestrianCrossingTime, minimumGreenTime and vehicleLength are set using the system.cfg file.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">calculateDirectionPriority</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/junction.html#Junction.calculateDirectionPriority"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>This calculates which directions have the highest VPH and returns a priority ranking based on those VPH</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> (<a class="reference internal" href="#junction.Junction" title="junction.Junction"><em>Junction</em></a>) – the junction which contains all of the directions</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>an array storing the priority of the directions in the order [North, East, South, West]</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array(int)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">distributeVehicles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/junction.html#Junction.distributeVehicles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd><p>Distributes the vehicles within each direction of the junction to provide optimal traffic flow</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> – the junction that the lanes are in</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="direction.html" class="btn btn-neutral float-left" title="direction module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="lane.html" class="btn btn-neutral float-right" title="lane module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Andreas Masterton, Jingwei Liu, Lewis Ford, Rishi Devarakonda, Sreyas Nagarajan, Subomi Olatunji Orisatade.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

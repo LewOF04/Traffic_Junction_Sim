@@ -1,0 +1,330 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lane module &mdash; Traffic Wizard 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="simulation module" href="simulation.html" />
+    <link rel="prev" title="junction module" href="junction.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Traffic Wizard
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="app.html">app module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="db_functions.html">db_functions package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="direction.html">direction module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="junction.html">junction module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">lane module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lane.Lane"><code class="docutils literal notranslate"><span class="pre">Lane</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#lane.Lane.directionFlow"><code class="docutils literal notranslate"><span class="pre">Lane.directionFlow</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lane.Lane.totalFlow"><code class="docutils literal notranslate"><span class="pre">Lane.totalFlow</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lane.Lane.lastCarTime"><code class="docutils literal notranslate"><span class="pre">Lane.lastCarTime</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lane.Lane.avgWait"><code class="docutils literal notranslate"><span class="pre">Lane.avgWait</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lane.Lane.maxQueue"><code class="docutils literal notranslate"><span class="pre">Lane.maxQueue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lane.Lane.maxWait"><code class="docutils literal notranslate"><span class="pre">Lane.maxWait</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lane.Lane.numCarsPassed"><code class="docutils literal notranslate"><span class="pre">Lane.numCarsPassed</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lane.Lane.cars"><code class="docutils literal notranslate"><span class="pre">Lane.cars</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lane.Lane.newCarRate"><code class="docutils literal notranslate"><span class="pre">Lane.newCarRate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lane.Lane.lightTime"><code class="docutils literal notranslate"><span class="pre">Lane.lightTime</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lane.Lane.totalWait"><code class="docutils literal notranslate"><span class="pre">Lane.totalWait</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lane.Lane.getQueueSize"><code class="docutils literal notranslate"><span class="pre">Lane.getQueueSize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lane.Lane.updateDirectionFlow"><code class="docutils literal notranslate"><span class="pre">Lane.updateDirectionFlow()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">Lane.getQueueSize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">Lane.updateDirectionFlow()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#lane.laneOrdering"><code class="docutils literal notranslate"><span class="pre">laneOrdering()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulation.html">simulation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="txt_creation.html">txt_creation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vehicle.html">vehicle module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Traffic Wizard</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">src</a></li>
+      <li class="breadcrumb-item active">lane module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/lane.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-lane">
+<span id="lane-module"></span><h1>lane module<a class="headerlink" href="#module-lane" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="lane.Lane">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lane.</span></span><span class="sig-name descname"><span class="pre">Lane</span></span><a class="reference internal" href="_modules/lane.html#Lane"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lane.Lane" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Description: object containing all of the information about a lane</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lane.Lane.directionFlow">
+<span class="sig-name descname"><span class="pre">directionFlow</span></span><a class="headerlink" href="#lane.Lane.directionFlow" title="Link to this definition"></a></dt>
+<dd><p>an array of the VPH of traffic for each direction [LeftVPH, StraightVPH, RightVPH]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array(int)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lane.Lane.totalFlow">
+<span class="sig-name descname"><span class="pre">totalFlow</span></span><a class="headerlink" href="#lane.Lane.totalFlow" title="Link to this definition"></a></dt>
+<dd><p>the total VPH of traffic for the direction</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lane.Lane.lastCarTime">
+<span class="sig-name descname"><span class="pre">lastCarTime</span></span><a class="headerlink" href="#lane.Lane.lastCarTime" title="Link to this definition"></a></dt>
+<dd><p>the time that the last vehicle entered the lane whilst running the direction</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lane.Lane.avgWait">
+<span class="sig-name descname"><span class="pre">avgWait</span></span><a class="headerlink" href="#lane.Lane.avgWait" title="Link to this definition"></a></dt>
+<dd><p>the average wait of a vehicle in this lane between entering and leaving the lane</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lane.Lane.maxQueue">
+<span class="sig-name descname"><span class="pre">maxQueue</span></span><a class="headerlink" href="#lane.Lane.maxQueue" title="Link to this definition"></a></dt>
+<dd><p>the longest queue of vehicles in this lane</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lane.Lane.maxWait">
+<span class="sig-name descname"><span class="pre">maxWait</span></span><a class="headerlink" href="#lane.Lane.maxWait" title="Link to this definition"></a></dt>
+<dd><p>the longest wait of a vehicle in this lane</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lane.Lane.numCarsPassed">
+<span class="sig-name descname"><span class="pre">numCarsPassed</span></span><a class="headerlink" href="#lane.Lane.numCarsPassed" title="Link to this definition"></a></dt>
+<dd><p>the number of vehicles that have passed through this lane</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lane.Lane.cars">
+<span class="sig-name descname"><span class="pre">cars</span></span><a class="headerlink" href="#lane.Lane.cars" title="Link to this definition"></a></dt>
+<dd><p>the queue of vehicle objects</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Queue(<a class="reference internal" href="vehicle.html#vehicle.Vehicle" title="vehicle.Vehicle">Vehicle</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lane.Lane.newCarRate">
+<span class="sig-name descname"><span class="pre">newCarRate</span></span><a class="headerlink" href="#lane.Lane.newCarRate" title="Link to this definition"></a></dt>
+<dd><p>how long is takes for a car to enter the lane</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lane.Lane.lightTime">
+<span class="sig-name descname"><span class="pre">lightTime</span></span><a class="headerlink" href="#lane.Lane.lightTime" title="Link to this definition"></a></dt>
+<dd><p>the time that the light of this lane will be on for</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lane.Lane.totalWait">
+<span class="sig-name descname"><span class="pre">totalWait</span></span><a class="headerlink" href="#lane.Lane.totalWait" title="Link to this definition"></a></dt>
+<dd><p>the total wait time of all vehicles in this lane</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lane.Lane.getQueueSize">
+<span class="sig-name descname"><span class="pre">getQueueSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lane.html#Lane.getQueueSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lane.Lane.getQueueSize" title="Link to this definition"></a></dt>
+<dd><p>gives the size of the queue in the lane</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lane.Lane.updateDirectionFlow">
+<span class="sig-name descname"><span class="pre">updateDirectionFlow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flow</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flowType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updateType</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lane.html#Lane.updateDirectionFlow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lane.Lane.updateDirectionFlow" title="Link to this definition"></a></dt>
+<dd><p>Sets the flow of the lane and the newCarRate based on the new flow</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">getQueueSize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lane.html#Lane.getQueueSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>Description: Returns the size of the queue of cars in the lane</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> (<a class="reference internal" href="#lane.Lane" title="lane.Lane"><em>Lane</em></a>) – the lane in question</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the number of vehicles in the lane’s queue</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">updateDirectionFlow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flow</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flowType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updateType</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lane.html#Lane.updateDirectionFlow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd><p>Description: Sets the flow of the lane and the newCarRate based on the new flow</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flow</strong> (<em>int</em>) – the VPH that is being updated</p></li>
+<li><p><strong>flowType</strong> (<em>int</em>) – which direction the flow is heading (0 = Left, 1 = Straight, 2 = Right)</p></li>
+<li><p><strong>updateType</strong> (<em>string</em>) – how the update should occur (‘add’ = add the flow to the current flow, ‘sub’ = subtract the flow from the current flow, ‘rep’ = replace the current flow with the new flow)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lane.laneOrdering">
+<span class="sig-prename descclassname"><span class="pre">lane.</span></span><span class="sig-name descname"><span class="pre">laneOrdering</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lanes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lane.html#laneOrdering"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lane.laneOrdering" title="Link to this definition"></a></dt>
+<dd><p>Description: Orders the array of lanes into the correct order</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>lanes</strong> (<em>Array</em>) – an array representing the lanes of a junction direction.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the lanes of a junction direction, with the lanes in the correct order from left to right.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="junction.html" class="btn btn-neutral float-left" title="junction module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="simulation.html" class="btn btn-neutral float-right" title="simulation module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Andreas Masterton, Jingwei Liu, Lewis Ford, Rishi Devarakonda, Sreyas Nagarajan, Subomi Olatunji Orisatade.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

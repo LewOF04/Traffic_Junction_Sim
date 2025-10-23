@@ -1,0 +1,246 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>junction &mdash; Traffic Wizard 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Traffic Wizard
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Traffic Wizard</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">junction</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for junction</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">configparser</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.direction</span><span class="w"> </span><span class="kn">import</span> <span class="n">Direction</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.lane</span><span class="w"> </span><span class="kn">import</span> <span class="n">laneOrdering</span>
+
+<div class="viewcode-block" id="Junction">
+<a class="viewcode-back" href="../junction.html#junction.Junction">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Junction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The class object containing all of the junction information</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        directions(Dictionary): a dictionary containing all of the direction objects within the junction</span>
+<span class="sd">        priorityNums(Array): an array containing the priority of each direction [North, East, South, West] in a range 1-4</span>
+<span class="sd">        isPedestrianCrossing(Bool): whether or not this junction has a pedestrain crossing</span>
+<span class="sd">        pedCrossPH(int): the number of pedestrian crossings that occur within an hour</span>
+<span class="sd">        lastCrossingTime(float): the time that the last pedestrian crossing occured within the junction (during simulation)</span>
+<span class="sd">        trafficSpeed(float): the speed of the traffic in m/s</span>
+<span class="sd">        pedestrianCrossingTime(float): the time of a pedestrian crossing in seconds</span>
+<span class="sd">        minimumGreenTime(float): the minimum amount of time that a green light is on</span>
+<span class="sd">        vehicleLength(float): the average length of a vehicle in metres</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        __init__(self, inputInformation): initialises the Junction object</span>
+<span class="sd">        distributeVehicles(self): distributes vehicles within each direction to the lanes</span>
+<span class="sd">        calculateDirectionPriority(self): given the distribution of traffic calculate the priority for each direction</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        pedCrossPH, lastCrossingTime and pedestrianCrossingTime are only set if isPedestrianCrossing is equal to True.</span>
+<span class="sd">        trafficSpeed, pedestrianCrossingTime, minimumGreenTime and vehicleLength are set using the system.cfg file.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Junction.__init__">
+<a class="viewcode-back" href="../junction.html#junction.Junction.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputInformation</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialises the junction object</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            self(Junction): the junction that is being initialised</span>
+<span class="sd">            inputInformation(Dictionary): a dictionary containing all of the information inputted by the user</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Read the configuration</span>
+        <span class="n">config_path</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;system.cfg&quot;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">()</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">config_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">directions</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">directions</span><span class="p">[</span><span class="s1">&#39;north&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Direction</span><span class="p">(</span><span class="n">inputInformation</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="s1">&#39;north&#39;</span><span class="p">,</span> <span class="n">laneOrdering</span><span class="p">(</span><span class="n">inputInformation</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>  <span class="c1"># creates the direction for north</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">directions</span><span class="p">[</span><span class="s1">&#39;east&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Direction</span><span class="p">(</span><span class="n">inputInformation</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="s1">&#39;east&#39;</span><span class="p">,</span> <span class="n">laneOrdering</span><span class="p">(</span><span class="n">inputInformation</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>  <span class="c1"># creates the direction for east</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">directions</span><span class="p">[</span><span class="s1">&#39;south&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Direction</span><span class="p">(</span><span class="n">inputInformation</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="s1">&#39;south&#39;</span><span class="p">,</span> <span class="n">laneOrdering</span><span class="p">(</span><span class="n">inputInformation</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>  <span class="c1"># creates the direction for south</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">directions</span><span class="p">[</span><span class="s1">&#39;west&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Direction</span><span class="p">(</span><span class="n">inputInformation</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="s1">&#39;west&#39;</span><span class="p">,</span> <span class="n">laneOrdering</span><span class="p">(</span><span class="n">inputInformation</span><span class="p">[</span><span class="mi">4</span><span class="p">]))</span>  <span class="c1"># creates the direction for west</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">priorityNums</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># an array with the priorities of the junction directions</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">isPedestrianCrossing</span> <span class="o">=</span> <span class="n">inputInformation</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span>  <span class="c1"># store whether or not this direction contains a pedestrian crossing</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isPedestrianCrossing</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pedCrossPH</span> <span class="o">=</span> <span class="n">inputInformation</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span>  <span class="c1"># stores the amount of pedestrain crossing requests there will be in an hour</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lastCrossingTime</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># the the time of the last pedestrain crossing</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">trafficSpeed</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Settings&#39;</span><span class="p">,</span> <span class="s1">&#39;traffic_speed&#39;</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">minimumGreenTime</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Settings&#39;</span><span class="p">,</span> <span class="s1">&#39;minimum_green_light_time&#39;</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vehicleLength</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Settings&#39;</span><span class="p">,</span> <span class="s1">&#39;vehicle_length&#39;</span><span class="p">))</span>
+
+
+            <span class="k">if</span> <span class="n">inputInformation</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>  <span class="c1"># checks whether there is a pedestrian crossing</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pedestrianCrossingTime</span> <span class="o">=</span> <span class="n">inputInformation</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span> <span class="c1">#float(config.get(&#39;Settings&#39;, &#39;pedestrian_crossing_time&#39;))  # gets the pedestrain crossing time from the config file</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="s2">&quot;There is a formatting error within the system.cfg file, please correct before system use.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Junction.distributeVehicles">
+<a class="viewcode-back" href="../junction.html#junction.Junction.distributeVehicles">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">distributeVehicles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Distributes the vehicles within each direction of the junction to provide optimal traffic flow</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            self: the junction that the lanes are in</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">directions</span><span class="p">[</span><span class="s1">&#39;north&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">distributeVehiclesByLane</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">directions</span><span class="p">[</span><span class="s1">&#39;east&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">distributeVehiclesByLane</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">directions</span><span class="p">[</span><span class="s1">&#39;south&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">distributeVehiclesByLane</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">directions</span><span class="p">[</span><span class="s1">&#39;west&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">distributeVehiclesByLane</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Junction.calculateDirectionPriority">
+<a class="viewcode-back" href="../junction.html#junction.Junction.calculateDirectionPriority">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculateDirectionPriority</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This calculates which directions have the highest VPH and returns a priority ranking based on those VPH</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            self(Junction): the junction which contains all of the directions</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            array(int): an array storing the priority of the directions in the order [North, East, South, West]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">directionHighFlows</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># an array to store the highest flows of each direction in the order [North, East, South, West]</span>
+
+        <span class="c1"># finds the highest VPH in a lane for each direction</span>
+        <span class="k">for</span> <span class="n">direction</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">directions</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>  <span class="c1"># iterates over all directions in the junction</span>
+            <span class="n">maxVPH</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># sets the current maxVPH to be 0</span>
+            <span class="k">for</span> <span class="n">lanes</span> <span class="ow">in</span> <span class="n">direction</span><span class="o">.</span><span class="n">lanes</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>  <span class="c1"># iterates over all of the laneTypes in the junction</span>
+                <span class="k">for</span> <span class="n">lane</span> <span class="ow">in</span> <span class="n">lanes</span><span class="p">:</span>  <span class="c1"># iterates over all the lanes of the lane type</span>
+                    <span class="n">maxVPH</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">lane</span><span class="o">.</span><span class="n">totalFlow</span><span class="p">,</span> <span class="n">maxVPH</span><span class="p">)</span>  <span class="c1"># sets the maxVPH to be the highest of the maxVPH or the current lanes vph</span>
+
+            <span class="n">directionHighFlows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">maxVPH</span><span class="p">)</span>  <span class="c1"># adds the maxVPH to directionHighFlows</span>
+
+
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">flow</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">flow</span> <span class="ow">in</span> <span class="n">directionHighFlows</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># puts the VPH into a dictionary of the form {VPH, index in the original array}</span>
+        <span class="n">numberDict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">directionHighFlows</span><span class="p">)):</span>
+            <span class="n">numberDict</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">directionHighFlows</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>  <span class="c1"># creates a dictionary with the flow rate as the key and their position in the original array as the value</span>
+        <span class="n">numberDict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">numberDict</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="c1"># sorts the dictionary by the flow rates and stores in numberDict</span>
+
+
+        
+        <span class="c1"># iterates through the dictionary and stores the values in separate arrays</span>
+        <span class="n">indexOrder</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># initialises the array to store the original indexes of the values</span>
+        <span class="n">flowOrder</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># initialises the array to store the flow of the values</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">VPH</span> <span class="ow">in</span> <span class="n">numberDict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>  <span class="c1"># iterates over the items in the dictionary</span>
+            <span class="n">indexOrder</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>  <span class="c1"># adds the index to the array</span>
+            <span class="n">flowOrder</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">VPH</span><span class="p">)</span>  <span class="c1"># adds the flow to the array</span>
+
+        <span class="c1"># adds the number of 0&#39;s to the array as directions</span>
+        <span class="n">ranks</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># initialises ranks</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indexOrder</span><span class="p">)):</span>  <span class="c1"># iterates for the amount of directions</span>
+            <span class="n">ranks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># adds 0 to the array</span>
+
+        <span class="c1"># produces the array of the ranks</span>
+        <span class="n">rank</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># initialises the rank as 1</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">flowOrder</span><span class="p">)):</span>  <span class="c1"># iterates over the number of directions</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">flowOrder</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">flowOrder</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]:</span>  <span class="c1"># checks whether two score are the same or not</span>
+                <span class="n">rank</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># increases the rank by 1</span>
+            <span class="n">ranks</span><span class="p">[</span><span class="n">indexOrder</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">rank</span>  <span class="c1"># assigns the rank into ranks at the index the flow was originally in</span>
+
+        <span class="k">return</span> <span class="n">ranks</span>  <span class="c1"># returns the array of ranks in the order [North, East, South, West]</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Andreas Masterton, Jingwei Liu, Lewis Ford, Rishi Devarakonda, Sreyas Nagarajan, Subomi Olatunji Orisatade.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,616 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>simulation &mdash; Traffic Wizard 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Traffic Wizard
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Traffic Wizard</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">simulation</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for simulation</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.vehicle</span><span class="w"> </span><span class="kn">import</span> <span class="n">Vehicle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.junction</span><span class="w"> </span><span class="kn">import</span> <span class="n">Junction</span>
+
+<div class="viewcode-block" id="endSimulation">
+<a class="viewcode-back" href="../simulation.html#simulation.endSimulation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">endSimulation</span><span class="p">(</span><span class="n">junction</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description: Gathers all information and packages it into a dictionary to be passed off for processing</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        junction(Junction): the junction that the information is being gathered from</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dictionary: simulationDict - the dictionary containing all information about the simulation run</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">simulationDict</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1">#creates a dictionary to store each direction and the overall simulation information</span>
+    <span class="c1">#add information about the junction itself and the simulation parameters</span>
+    <span class="n">simulationDict</span><span class="p">[</span><span class="s1">&#39;isPedestrianCrossing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">junction</span><span class="o">.</span><span class="n">isPedestrianCrossing</span> <span class="c1">#whether the junction has a pedestrain crossing or not</span>
+    
+    <span class="k">if</span> <span class="n">junction</span><span class="o">.</span><span class="n">isPedestrianCrossing</span><span class="p">:</span>
+        <span class="n">simulationDict</span><span class="p">[</span><span class="s1">&#39;pedestrianCrossingTime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">junction</span><span class="o">.</span><span class="n">pedestrianCrossingTime</span> <span class="c1">#the crossing time for pedestrians</span>
+        <span class="n">simulationDict</span><span class="p">[</span><span class="s1">&#39;pedCrossPH&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">junction</span><span class="o">.</span><span class="n">pedCrossPH</span> <span class="c1">#the pedestrian crossings per hour</span>
+
+    <span class="n">simulationDict</span><span class="p">[</span><span class="s1">&#39;trafficSpeed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">junction</span><span class="o">.</span><span class="n">trafficSpeed</span> <span class="c1">#the traffic speed of the vehicles</span>
+    <span class="n">simulationDict</span><span class="p">[</span><span class="s1">&#39;minimumGreenTime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">junction</span><span class="o">.</span><span class="n">minimumGreenTime</span> <span class="c1">#the minimum time a green light must be on</span>
+    <span class="n">simulationDict</span><span class="p">[</span><span class="s1">&#39;vehicleLength&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">junction</span><span class="o">.</span><span class="n">vehicleLength</span> <span class="c1">#the average length of a vehicle</span>
+    <span class="n">simulationDict</span><span class="p">[</span><span class="s1">&#39;priorityNums&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">junction</span><span class="o">.</span><span class="n">priorityNums</span> <span class="c1">#the priority of each direction</span>
+
+    <span class="c1">#initialises counters for cars, wait time and queue numbers</span>
+    <span class="n">simulationCarsPassedThrough</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">simulationTotalWait</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">simulationDict</span><span class="p">[</span><span class="s1">&#39;maxQueue&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">simulationDict</span><span class="p">[</span><span class="s1">&#39;maxWait&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+
+    <span class="c1">#creates each dictionary that stores the information for each direction</span>
+    <span class="k">for</span> <span class="n">directionName</span><span class="p">,</span> <span class="n">direction</span> <span class="ow">in</span> <span class="n">junction</span><span class="o">.</span><span class="n">directions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">directionDict</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1">#creates a dicitionary for this direction</span>
+
+        <span class="c1">#initialises values for cars, wait and queue numbers</span>
+        <span class="n">directionCarsPassedThrough</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">directionTotalWait</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">directionDict</span><span class="p">[</span><span class="s1">&#39;maxWait&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">directionDict</span><span class="p">[</span><span class="s1">&#39;maxQueue&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="c1">#stores relevant values into the direction dictionary</span>
+        <span class="n">directionDict</span><span class="p">[</span><span class="s1">&#39;lightTime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">direction</span><span class="o">.</span><span class="n">lightTime</span>
+        <span class="n">directionDict</span><span class="p">[</span><span class="s1">&#39;VPHFlowDirections&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">direction</span><span class="o">.</span><span class="n">VPHFlowDirections</span>
+        <span class="n">directionDict</span><span class="p">[</span><span class="s1">&#39;laneLayout&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">direction</span><span class="o">.</span><span class="n">laneLayout</span>
+
+
+        <span class="c1">#creates dictionary for each lane within the dictionary</span>
+        <span class="n">laneIteration</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">laneType</span><span class="p">,</span> <span class="n">lanes</span> <span class="ow">in</span> <span class="n">direction</span><span class="o">.</span><span class="n">lanes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">lane</span> <span class="ow">in</span> <span class="n">lanes</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">lane</span><span class="o">.</span><span class="n">numCarsPassed</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">lane</span><span class="o">.</span><span class="n">avgWait</span> <span class="o">=</span> <span class="n">lane</span><span class="o">.</span><span class="n">totalWait</span> <span class="o">/</span> <span class="n">lane</span><span class="o">.</span><span class="n">numCarsPassed</span> <span class="c1">#calculates the average wait for this lane</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">lane</span><span class="o">.</span><span class="n">avgWait</span> <span class="o">=</span> <span class="mi">0</span>
+
+                <span class="c1">#stores all the information about this lane in the laneDict </span>
+                <span class="n">laneDict</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">laneDict</span><span class="p">[</span><span class="s1">&#39;laneType&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">laneType</span>
+                <span class="n">laneDict</span><span class="p">[</span><span class="s1">&#39;maxQueue&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lane</span><span class="o">.</span><span class="n">maxQueue</span>
+                <span class="n">laneDict</span><span class="p">[</span><span class="s1">&#39;maxWait&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lane</span><span class="o">.</span><span class="n">maxWait</span>
+                <span class="n">laneDict</span><span class="p">[</span><span class="s1">&#39;avgWait&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lane</span><span class="o">.</span><span class="n">avgWait</span>
+                <span class="n">laneDict</span><span class="p">[</span><span class="s1">&#39;remainingVehicles&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lane</span><span class="o">.</span><span class="n">cars</span><span class="o">.</span><span class="n">qsize</span><span class="p">()</span>
+                <span class="n">laneDict</span><span class="p">[</span><span class="s1">&#39;directionFlow&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lane</span><span class="o">.</span><span class="n">directionFlow</span>
+                <span class="n">laneDict</span><span class="p">[</span><span class="s1">&#39;totalFlow&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lane</span><span class="o">.</span><span class="n">totalFlow</span>
+                <span class="n">laneDict</span><span class="p">[</span><span class="s1">&#39;carsPassedThrough&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lane</span><span class="o">.</span><span class="n">numCarsPassed</span>
+                <span class="n">laneDict</span><span class="p">[</span><span class="s1">&#39;totalWait&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lane</span><span class="o">.</span><span class="n">totalWait</span>
+
+                <span class="c1">#adds to the total counters for the direction</span>
+                <span class="n">directionCarsPassedThrough</span> <span class="o">+=</span> <span class="n">lane</span><span class="o">.</span><span class="n">numCarsPassed</span>
+                <span class="n">directionTotalWait</span> <span class="o">+=</span> <span class="n">lane</span><span class="o">.</span><span class="n">totalWait</span>
+
+                <span class="c1">#updates the maxWait and maxQueue for the direction</span>
+                <span class="n">directionDict</span><span class="p">[</span><span class="s1">&#39;maxWait&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">laneDict</span><span class="p">[</span><span class="s1">&#39;maxWait&#39;</span><span class="p">],</span> <span class="n">directionDict</span><span class="p">[</span><span class="s1">&#39;maxWait&#39;</span><span class="p">])</span>
+                <span class="n">directionDict</span><span class="p">[</span><span class="s1">&#39;maxQueue&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">laneDict</span><span class="p">[</span><span class="s1">&#39;maxQueue&#39;</span><span class="p">],</span> <span class="n">directionDict</span><span class="p">[</span><span class="s1">&#39;maxQueue&#39;</span><span class="p">])</span>
+
+                <span class="n">directionDict</span><span class="p">[</span><span class="n">laneIteration</span><span class="p">]</span> <span class="o">=</span> <span class="n">laneDict</span> <span class="c1">#stores the lane dictionary in the directionDict</span>
+                <span class="n">laneIteration</span> <span class="o">+=</span> <span class="mi">1</span> <span class="c1">#increments the lane iteration</span>
+        
+
+        <span class="n">directionDict</span><span class="p">[</span><span class="s1">&#39;carsPassedThrough&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">directionCarsPassedThrough</span> <span class="c1">#the number of vehicles passed through this direction</span>
+        <span class="n">directionDict</span><span class="p">[</span><span class="s1">&#39;totalWait&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">directionTotalWait</span> <span class="c1">#the total wait time of all direction vehicles</span>
+        <span class="k">if</span> <span class="n">directionCarsPassedThrough</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">directionDict</span><span class="p">[</span><span class="s1">&#39;avgWait&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">directionTotalWait</span> <span class="o">/</span> <span class="n">directionCarsPassedThrough</span>  <span class="c1">#the average wait over the entire direction</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">directionDict</span><span class="p">[</span><span class="s1">&#39;avgWait&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+
+        <span class="c1">#adds to the total counter for the simulation</span>
+        <span class="n">simulationTotalWait</span> <span class="o">+=</span> <span class="n">directionTotalWait</span>
+        <span class="n">simulationCarsPassedThrough</span> <span class="o">+=</span> <span class="n">directionCarsPassedThrough</span>
+
+        <span class="n">simulationDict</span><span class="p">[</span><span class="n">directionName</span><span class="p">]</span> <span class="o">=</span> <span class="n">directionDict</span> <span class="c1">#adds a dictionary to store the information about that direction</span>
+        <span class="n">simulationDict</span><span class="p">[</span><span class="s1">&#39;maxQueue&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">simulationDict</span><span class="p">[</span><span class="s1">&#39;maxQueue&#39;</span><span class="p">],</span> <span class="n">directionDict</span><span class="p">[</span><span class="s1">&#39;maxQueue&#39;</span><span class="p">])</span> <span class="c1">#calculates the maxQueue for the entire simulation</span>
+        <span class="n">simulationDict</span><span class="p">[</span><span class="s1">&#39;maxWait&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">simulationDict</span><span class="p">[</span><span class="s1">&#39;maxWait&#39;</span><span class="p">],</span> <span class="n">directionDict</span><span class="p">[</span><span class="s1">&#39;maxWait&#39;</span><span class="p">])</span> <span class="c1">#calculates the maxWait for the entire simulation</span>
+
+    <span class="k">if</span> <span class="n">simulationCarsPassedThrough</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">simulationDict</span><span class="p">[</span><span class="s1">&#39;avgWait&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">simulationTotalWait</span> <span class="o">/</span> <span class="n">simulationCarsPassedThrough</span> <span class="c1">#calculates the average wait across the whole simulation</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">simulationDict</span><span class="p">[</span><span class="s1">&#39;avgWait&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">simulationDict</span><span class="p">[</span><span class="s1">&#39;carsPassedThrough&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">simulationCarsPassedThrough</span> <span class="c1">#the total number of vehicles processed by the junction</span>
+    <span class="n">simulationDict</span><span class="p">[</span><span class="s1">&#39;totalWait&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">simulationTotalWait</span> <span class="c1">#the total wait time of all vehicles</span>
+    
+    <span class="k">return</span> <span class="n">simulationDict</span> <span class="c1">#returns the final dictionary of the simulationDictionary    </span></div>
+
+
+
+<div class="viewcode-block" id="runSimulation">
+<a class="viewcode-back" href="../simulation.html#simulation.runSimulation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">runSimulation</span><span class="p">(</span><span class="n">junction</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description: Runs the simulation for the given junction</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        junction(Junction): the junction that the simulation processed for</span>
+<span class="sd">    </span>
+<span class="sd">    Methods:</span>
+<span class="sd">        processGreenLane(lane, currentTime, junction): Processes vehicle during greenlight time for a lane</span>
+<span class="sd">        processGreen(direction, direction, currentTime, junction): Processes the green light for all lanes of a direction</span>
+<span class="sd">        shouldActivatePedestrianCrossing(junction, currentTime, crossingRequests): checks whether the pedestrian crossing should ne activated given the current time</span>
+<span class="sd">        processWaitingVehiclesLane(lane, currentTime): processes the vehicles that&#39;ve arrived up to the currentTime</span>
+<span class="sd">        processWaitingVehicles(direction, currentTime, CB): processes the vehicles that&#39;ve arrived for a whole direction</span>
+<span class="sd">        processOppositeLane(lane, lightTime, currentTime, junction): processes opposing left lane</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dictionary: the simulationDict of all information about the simulation after it has run</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">processOppositeLane</span><span class="p">(</span><span class="n">lane</span><span class="p">,</span> <span class="n">lightTime</span><span class="p">,</span> <span class="n">currentTime</span><span class="p">,</span> <span class="n">junction</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Description: When a left-lane from the opposite direction as the light, is able to run unimpeded, this method processes the traffic</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            lane(Lane): The lane which is being processed</span>
+<span class="sd">            lightTime(float): The time that the light should be on for</span>
+<span class="sd">            currentTime(float): The current time of the simulation</span>
+<span class="sd">            junction(Junction): The junction that the simulation is running in</span>
+
+<span class="sd">        Methods:</span>
+<span class="sd">            processWaitingVehiclesLane(lane, time): Processes vehicles waiting in the lane up until the specified time</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">currentTime</span>  <span class="c1"># starts the time as the currentTime</span>
+        <span class="n">end_time</span> <span class="o">=</span> <span class="n">currentTime</span> <span class="o">+</span> <span class="n">lightTime</span>
+
+        <span class="k">while</span> <span class="n">time</span> <span class="o">&lt;</span> <span class="n">end_time</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">lane</span><span class="o">.</span><span class="n">getQueueSize</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># checks whether there is a vehicle on the queue</span>
+                <span class="n">time</span> <span class="o">+=</span> <span class="n">junction</span><span class="o">.</span><span class="n">vehicleLength</span> <span class="o">/</span> <span class="n">junction</span><span class="o">.</span><span class="n">trafficSpeed</span>  <span class="c1"># adds to the time the time it takes for a vehicle to travel one vehicle length</span>
+                <span class="n">vehicle</span> <span class="o">=</span> <span class="n">lane</span><span class="o">.</span><span class="n">cars</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>  <span class="c1"># removes a vehicle from the front of the queue</span>
+
+                <span class="n">lane</span><span class="o">.</span><span class="n">totalWait</span> <span class="o">+=</span> <span class="n">time</span> <span class="o">-</span> <span class="n">vehicle</span><span class="o">.</span><span class="n">entryTime</span>  <span class="c1"># adds to the total wait time of the lane</span>
+                <span class="n">lane</span><span class="o">.</span><span class="n">numCarsPassed</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># adds to the number of vehicles that have passed through the lane</span>
+                <span class="n">lane</span><span class="o">.</span><span class="n">maxWait</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">lane</span><span class="o">.</span><span class="n">maxWait</span><span class="p">,</span> <span class="p">(</span>
+                            <span class="n">time</span> <span class="o">-</span> <span class="n">vehicle</span><span class="o">.</span><span class="n">entryTime</span><span class="p">))</span>  <span class="c1"># determines if this vehicle has had the longest wait so far</span>
+
+                <span class="n">processWaitingVehiclesLane</span><span class="p">(</span><span class="n">lane</span><span class="p">,</span>
+                                           <span class="n">time</span><span class="p">)</span>  <span class="c1"># adds any vehicles that have entered the lane whilst this vehicle was leaving</span>
+
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># otherwise if there are no vehicles in the lane</span>
+                <span class="c1"># Attempt to find next vehicle entry time or break the loop</span>
+                <span class="k">if</span> <span class="n">lane</span><span class="o">.</span><span class="n">newCarRate</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">lane</span><span class="o">.</span><span class="n">newCarRate</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">break</span>  <span class="c1"># Exit if no new cars are expected</span>
+
+                <span class="n">next_car_time</span> <span class="o">=</span> <span class="n">lane</span><span class="o">.</span><span class="n">lastCarTime</span> <span class="o">+</span> <span class="n">lane</span><span class="o">.</span><span class="n">newCarRate</span>
+
+                <span class="k">if</span> <span class="n">next_car_time</span> <span class="o">&gt;=</span> <span class="n">end_time</span><span class="p">:</span>
+                    <span class="k">break</span>  <span class="c1"># Exit if next car would arrive after light time</span>
+
+                <span class="n">time</span> <span class="o">=</span> <span class="n">next_car_time</span>  <span class="c1"># Update time to next car&#39;s arrival</span>
+                <span class="n">lane</span><span class="o">.</span><span class="n">numCarsPassed</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># add that the vehicle has passed the junction</span>
+                <span class="n">lane</span><span class="o">.</span><span class="n">lastCarTime</span> <span class="o">=</span> <span class="n">time</span>  <span class="c1"># updates the last time a vehicle entered</span>
+
+        <span class="k">return</span> <span class="n">time</span>  <span class="c1"># Optional: return final time for potential further use</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">processGreenLane</span><span class="p">(</span><span class="n">lane</span><span class="p">,</span> <span class="n">laneNum</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">oppositeDirection</span><span class="p">,</span> <span class="n">currentTime</span><span class="p">,</span> <span class="n">junction</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Description: Processes the vehicles during the green light time of the given lane</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            lane(Lane): the lane that the vehicles are being processed in</span>
+<span class="sd">            currentTime(float): the time of the simulation currently</span>
+<span class="sd">            junction(Junction): the junction that the simulation is in</span>
+<span class="sd">            direction(Direction): the direction that the lane belongs to</span>
+<span class="sd">            oppositeDirection(Direction): the direction opposite in the junction to direction</span>
+<span class="sd">            laneNum(int): the number of this lane in the direction (from left to right, i.e. the leftmost lane is 0, next 1 and so on)</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            float: (currentTime + lane.lightTime) the time of the simulation after the green light</span>
+<span class="sd">        </span>
+<span class="sd">        Methods:</span>
+<span class="sd">            processWaitingVehiclesLane(lane, time): processes all the waiting vehicles for a lane</span>
+<span class="sd">        </span>
+<span class="sd">        Notes:</span>
+<span class="sd">            Left turn lanes in the opposite direction are allowed to operate except when there are multiple right turn lanes in the current direction (impossible due to lane crossover) or when there is significant right turn traffic so they have no right of way</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">normalRun</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1">#boolean to check whether this lane needs to operate as normal or consider an opposing left lane</span>
+
+        <span class="c1">#check if there is a left turn lane opposite and that this is the right-most lane of the current direction</span>
+        <span class="k">if</span><span class="p">((</span><span class="nb">list</span><span class="p">(</span><span class="n">oppositeDirection</span><span class="o">.</span><span class="n">lanes</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;L&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">laneNum</span> <span class="o">==</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">direction</span><span class="o">.</span><span class="n">laneLayout</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))):</span>
+            <span class="c1">#check if this lane contains right turning traffic</span>
+            <span class="k">if</span><span class="p">((</span><span class="s1">&#39;R&#39;</span> <span class="ow">in</span> <span class="n">direction</span><span class="o">.</span><span class="n">laneLayout</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="n">lane</span><span class="o">.</span><span class="n">newCarRate</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)):</span>
+                <span class="c1">#if it does contain right turn traffic</span>
+
+                <span class="n">allowLeft</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1">#checks whether a left lane is allowed to flow</span>
+                <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">direction</span><span class="o">.</span><span class="n">laneLayout</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span> <span class="c1">#checks if there are more than 1 lane</span>
+                    
+                    <span class="c1">#check whether there are multiple lanes turning right (if so it is unsafe to run a left turn lane, so no left turn lanes are allowed to run)</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;R&#39;</span> <span class="ow">in</span> <span class="n">direction</span><span class="o">.</span><span class="n">laneLayout</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]):</span> <span class="c1">#if there is right turning in the second last lane</span>
+                        <span class="n">allowLeft</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1">#left lanes cannot go</span>
+
+                <span class="k">if</span> <span class="n">allowLeft</span><span class="p">:</span> <span class="c1">#checks whether left lane traffic in the opposite direction is allowed to flow</span>
+                    <span class="n">normalRun</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1">#the logic now must be different to accomodate for the opposite left turn lane</span>
+
+                    <span class="n">time</span> <span class="o">=</span> <span class="n">currentTime</span> <span class="c1">#starts the time as the currentTime</span>
+                    <span class="k">while</span><span class="p">(</span><span class="n">time</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">currentTime</span> <span class="o">+</span> <span class="n">lane</span><span class="o">.</span><span class="n">lightTime</span><span class="p">)):</span> <span class="c1">#iterates as long as the time is less than the finishing time of the green light</span>
+                        <span class="k">if</span><span class="p">(</span><span class="n">lane</span><span class="o">.</span><span class="n">getQueueSize</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span> <span class="c1">#checks whether there is a vehicle on the queue</span>
+                            <span class="n">time</span> <span class="o">+=</span> <span class="n">junction</span><span class="o">.</span><span class="n">vehicleLength</span> <span class="o">/</span> <span class="n">junction</span><span class="o">.</span><span class="n">trafficSpeed</span> <span class="c1">#adds to the time the time it takes for a vehicle to travel one vehicle length</span>
+                            <span class="n">vehicle</span> <span class="o">=</span> <span class="n">lane</span><span class="o">.</span><span class="n">cars</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="c1">#removes a vehicle from the front of the queue</span>
+
+                            <span class="n">lane</span><span class="o">.</span><span class="n">totalWait</span> <span class="o">+=</span> <span class="n">time</span> <span class="o">-</span> <span class="n">vehicle</span><span class="o">.</span><span class="n">entryTime</span> <span class="c1">#adds to the total wait time of the lane</span>
+                            <span class="n">lane</span><span class="o">.</span><span class="n">numCarsPassed</span> <span class="o">+=</span> <span class="mi">1</span> <span class="c1">#adds to the number of vehicles that have passed through the lane</span>
+                            <span class="n">lane</span><span class="o">.</span><span class="n">maxWait</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">lane</span><span class="o">.</span><span class="n">maxWait</span><span class="p">,</span> <span class="p">(</span><span class="n">time</span> <span class="o">-</span> <span class="n">vehicle</span><span class="o">.</span><span class="n">entryTime</span><span class="p">))</span> <span class="c1">#determines if this vehicle has had the longest wait so far</span>
+
+                            <span class="n">processWaitingVehiclesLane</span><span class="p">(</span><span class="n">lane</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span> <span class="c1">#adds any vehicles that have entered the lane whilst this vehicle was leaving</span>
+
+                        <span class="k">else</span><span class="p">:</span> <span class="c1">#otherwise if there are no vehicles in the lane</span>
+                            <span class="c1">#once there are no vehicles in the lane, the opposing left lanes have the opportunity to go</span>
+                            <span class="n">time</span> <span class="o">=</span> <span class="n">lane</span><span class="o">.</span><span class="n">lastCarTime</span> <span class="o">+</span> <span class="n">lane</span><span class="o">.</span><span class="n">newCarRate</span> <span class="c1">#updates the time to be when the next vehicle joins</span>
+                            
+                            <span class="c1">#iterates over all opposing left turn lanes</span>
+                            <span class="k">for</span> <span class="n">laneL</span> <span class="ow">in</span> <span class="n">oppositeDirection</span><span class="o">.</span><span class="n">lanes</span><span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">]:</span>
+                                <span class="k">if</span> <span class="n">laneL</span><span class="o">.</span><span class="n">newCarRate</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                                    <span class="k">continue</span>
+
+                                <span class="n">LTime</span> <span class="o">=</span> <span class="n">lane</span><span class="o">.</span><span class="n">lastCarTime</span> <span class="o">+</span> <span class="mi">5</span> <span class="c1">#starts the LTime as the time that the last right-turn lane has gone (+5 for the buffer between the right car to cross before an opposing vehicle can go)</span>
+                                <span class="c1">#loops until the LTime is greater than either the time that the next right-turning vehicle comes OR the time of the total light</span>
+                                <span class="c1">#(-5 is used to provide a safety buffer between vehicles)</span>
+                                <span class="k">while</span> <span class="p">(</span><span class="n">LTime</span> <span class="o">&lt;</span> <span class="nb">min</span><span class="p">((</span><span class="n">time</span> <span class="o">-</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="n">currentTime</span> <span class="o">+</span> <span class="n">lane</span><span class="o">.</span><span class="n">lightTime</span><span class="p">))):</span>
+                                    <span class="c1">#process vehicles for the left-turn lane lanes</span>
+
+                                    <span class="k">if</span><span class="p">(</span><span class="n">laneL</span><span class="o">.</span><span class="n">getQueueSize</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span> <span class="c1">#checks whether there is a vehicle on the queue</span>
+                                        <span class="n">LTime</span> <span class="o">+=</span> <span class="n">junction</span><span class="o">.</span><span class="n">vehicleLength</span> <span class="o">/</span> <span class="n">junction</span><span class="o">.</span><span class="n">trafficSpeed</span> <span class="c1">#adds to the time the time it takes for a vehicle to travel one vehicle length</span>
+                                        
+                                        <span class="k">if</span><span class="p">(</span><span class="n">LTime</span> <span class="o">&gt;</span> <span class="nb">min</span><span class="p">((</span><span class="n">time</span> <span class="o">-</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="n">currentTime</span> <span class="o">+</span> <span class="n">lane</span><span class="o">.</span><span class="n">lightTime</span><span class="p">))):</span>
+                                            <span class="c1">#if the LTime is now higher than the </span>
+                                            <span class="k">break</span> <span class="c1">#exits the while loop</span>
+                                            
+                                        <span class="n">vehicle</span> <span class="o">=</span> <span class="n">laneL</span><span class="o">.</span><span class="n">cars</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="c1">#removes a vehicle from the front of the queue</span>
+
+                                        <span class="n">laneL</span><span class="o">.</span><span class="n">totalWait</span> <span class="o">+=</span> <span class="n">LTime</span> <span class="o">-</span> <span class="n">vehicle</span><span class="o">.</span><span class="n">entryTime</span> <span class="c1">#adds to the total wait time of the lane</span>
+                                        <span class="n">laneL</span><span class="o">.</span><span class="n">numCarsPassed</span> <span class="o">+=</span> <span class="mi">1</span> <span class="c1">#adds to the number of vehicles that have passed through the lane</span>
+                                        <span class="n">laneL</span><span class="o">.</span><span class="n">maxWait</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">laneL</span><span class="o">.</span><span class="n">maxWait</span><span class="p">,</span> <span class="p">(</span><span class="n">LTime</span> <span class="o">-</span> <span class="n">vehicle</span><span class="o">.</span><span class="n">entryTime</span><span class="p">))</span> <span class="c1">#determines if this vehicle has had the longest wait so far</span>
+
+                                        <span class="n">processWaitingVehiclesLane</span><span class="p">(</span><span class="n">laneL</span><span class="p">,</span> <span class="n">LTime</span><span class="p">)</span> <span class="c1">#adds any vehicles that have entered the lane whilst this vehicle was leaving</span>
+
+                                    <span class="k">else</span><span class="p">:</span> <span class="c1">#once there are no vehicles left in the L lane</span>
+                                        <span class="n">LTime</span> <span class="o">=</span> <span class="n">laneL</span><span class="o">.</span><span class="n">lastCarTime</span> <span class="o">+</span> <span class="n">laneL</span><span class="o">.</span><span class="n">newCarRate</span> <span class="c1">#updates the time to be when the next vehicle joins</span>
+                                        <span class="k">if</span><span class="p">(</span><span class="n">LTime</span> <span class="o">&lt;</span> <span class="nb">min</span><span class="p">((</span><span class="n">time</span> <span class="o">-</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="n">currentTime</span> <span class="o">+</span> <span class="n">lane</span><span class="o">.</span><span class="n">lightTime</span><span class="p">))):</span> <span class="c1">#if this vehicle would&#39;ve joined before the end of the light OR before the next right vehicle </span>
+                                            <span class="n">laneL</span><span class="o">.</span><span class="n">numCarsPassed</span> <span class="o">+=</span> <span class="mi">1</span> <span class="c1">#add that the vehicle has passed the junction</span>
+                                            <span class="n">laneL</span><span class="o">.</span><span class="n">lastCarTime</span> <span class="o">=</span> <span class="n">LTime</span> <span class="c1">#updates the last time a vehicle entered</span>
+                                        
+                            <span class="k">if</span><span class="p">(</span><span class="n">time</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">currentTime</span> <span class="o">+</span> <span class="n">lane</span><span class="o">.</span><span class="n">lightTime</span><span class="p">)):</span> <span class="c1">#if this vehicle would&#39;ve joined before the end of the light</span>
+                                <span class="n">lane</span><span class="o">.</span><span class="n">numCarsPassed</span> <span class="o">+=</span> <span class="mi">1</span> <span class="c1">#add that the vehicle has passed the junction</span>
+                                <span class="n">lane</span><span class="o">.</span><span class="n">lastCarTime</span> <span class="o">=</span> <span class="n">time</span> <span class="c1">#updates the last time a vehicle entered</span>
+                
+            <span class="k">else</span><span class="p">:</span> <span class="c1">#this direction has no right turn traffic so the opposite left turn lanes can operate independently</span>
+                <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">direction</span><span class="o">.</span><span class="n">laneLayout</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span> <span class="c1">#checks if there are more than 1 lane</span>
+                    
+                    <span class="c1">#check whether there are multiple lanes turning right (if so it is unsafe to run a left turn lane, so no left turn lanes are allowed to run)</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;R&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">direction</span><span class="o">.</span><span class="n">laneLayout</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]):</span> <span class="c1">#if there is left turning in the second last lane</span>
+                        <span class="k">for</span> <span class="n">laneL</span> <span class="ow">in</span> <span class="n">oppositeDirection</span><span class="o">.</span><span class="n">lanes</span><span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">]:</span> <span class="c1">#iterates over all left turn lanes</span>
+                            <span class="k">if</span> <span class="n">laneL</span><span class="o">.</span><span class="n">newCarRate</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="k">continue</span>
+                
+                            <span class="n">processOppositeLane</span><span class="p">(</span><span class="n">laneL</span><span class="p">,</span> <span class="n">lane</span><span class="o">.</span><span class="n">lightTime</span><span class="p">,</span> <span class="n">currentTime</span><span class="p">,</span> <span class="n">junction</span><span class="p">)</span> <span class="c1">#runs the green light for the left lane</span>
+                
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">laneL</span> <span class="ow">in</span> <span class="n">oppositeDirection</span><span class="o">.</span><span class="n">lanes</span><span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">]:</span> <span class="c1">#iterates over all left turn lanes</span>
+                        <span class="k">if</span> <span class="n">laneL</span><span class="o">.</span><span class="n">newCarRate</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="k">continue</span>
+                        <span class="n">processOppositeLane</span><span class="p">(</span><span class="n">laneL</span><span class="p">,</span> <span class="n">lane</span><span class="o">.</span><span class="n">lightTime</span><span class="p">,</span> <span class="n">currentTime</span><span class="p">,</span> <span class="n">junction</span><span class="p">)</span> <span class="c1">#runs the green light for the left lane</span>
+        
+        <span class="c1">#if there is no left lane specific logic then the lane can run as normal</span>
+        <span class="k">if</span> <span class="n">normalRun</span><span class="p">:</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="n">currentTime</span> <span class="c1">#starts the time as the currentTime</span>
+            <span class="k">while</span><span class="p">(</span><span class="n">time</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">currentTime</span> <span class="o">+</span> <span class="n">lane</span><span class="o">.</span><span class="n">lightTime</span><span class="p">)):</span> <span class="c1">#iterates as long as the time is less than the finishing time of the green light</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">lane</span><span class="o">.</span><span class="n">getQueueSize</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span> <span class="c1">#checks whether there is a vehicle on the queue</span>
+                    <span class="n">time</span> <span class="o">+=</span> <span class="n">junction</span><span class="o">.</span><span class="n">vehicleLength</span> <span class="o">/</span> <span class="n">junction</span><span class="o">.</span><span class="n">trafficSpeed</span> <span class="c1">#adds to the time the time it takes for a vehicle to travel one vehicle length</span>
+                    <span class="n">vehicle</span> <span class="o">=</span> <span class="n">lane</span><span class="o">.</span><span class="n">cars</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="c1">#removes a vehicle from the front of the queue</span>
+
+                    <span class="n">lane</span><span class="o">.</span><span class="n">totalWait</span> <span class="o">+=</span> <span class="n">time</span> <span class="o">-</span> <span class="n">vehicle</span><span class="o">.</span><span class="n">entryTime</span> <span class="c1">#adds to the total wait time of the lane</span>
+                    <span class="n">lane</span><span class="o">.</span><span class="n">numCarsPassed</span> <span class="o">+=</span> <span class="mi">1</span> <span class="c1">#adds to the number of vehicles that have passed through the lane</span>
+                    <span class="n">lane</span><span class="o">.</span><span class="n">maxWait</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">lane</span><span class="o">.</span><span class="n">maxWait</span><span class="p">,</span> <span class="p">(</span><span class="n">time</span> <span class="o">-</span> <span class="n">vehicle</span><span class="o">.</span><span class="n">entryTime</span><span class="p">))</span> <span class="c1">#determines if this vehicle has had the longest wait so far</span>
+
+                    <span class="n">processWaitingVehiclesLane</span><span class="p">(</span><span class="n">lane</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span> <span class="c1">#adds any vehicles that have entered the lane whilst this vehicle was leaving</span>
+
+                <span class="k">else</span><span class="p">:</span> <span class="c1">#otherwise if there are no vehicles in the lane</span>
+
+                    <span class="k">if</span> <span class="n">lane</span><span class="o">.</span><span class="n">newCarRate</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">break</span>
+
+                    <span class="n">time</span> <span class="o">=</span> <span class="n">lane</span><span class="o">.</span><span class="n">lastCarTime</span> <span class="o">+</span> <span class="n">lane</span><span class="o">.</span><span class="n">newCarRate</span> <span class="c1">#updates the time to be when the next vehicle joins</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">time</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">currentTime</span> <span class="o">+</span> <span class="n">lane</span><span class="o">.</span><span class="n">lightTime</span><span class="p">)):</span> <span class="c1">#if this vehicle would&#39;ve joined before the end of the light</span>
+                        <span class="n">lane</span><span class="o">.</span><span class="n">numCarsPassed</span> <span class="o">+=</span> <span class="mi">1</span> <span class="c1">#add that the vehicle has passed the junction</span>
+                        <span class="n">lane</span><span class="o">.</span><span class="n">lastCarTime</span> <span class="o">=</span> <span class="n">time</span> <span class="c1">#updates the last time a vehicle entered</span>
+        
+        <span class="k">return</span> <span class="p">(</span><span class="n">currentTime</span> <span class="o">+</span> <span class="n">lane</span><span class="o">.</span><span class="n">lightTime</span><span class="p">)</span> <span class="c1">#returns what the new time is</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">processGreen</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="n">oppositeDirection</span><span class="p">,</span> <span class="n">currentTime</span><span class="p">,</span> <span class="n">junction</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Description: processes the light being green for all lanes in the junction apart from CB</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            direction(Direction): the direction which is being processed</span>
+<span class="sd">            currentTime(Float): the currentTime of the simulation</span>
+<span class="sd">            junction(Junction): the junction that the simulation is being run in</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            float: newTime - the time after the direction has been processed</span>
+<span class="sd">        </span>
+<span class="sd">        Methods:</span>
+<span class="sd">            processGreenlane(lane, direction, currentTime, junction): processes the green light for a specific lane</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">iteration</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1">#counts which lane in the direction this is</span>
+        <span class="k">for</span> <span class="n">laneType</span><span class="p">,</span> <span class="n">lanes</span> <span class="ow">in</span> <span class="n">direction</span><span class="o">.</span><span class="n">lanes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="c1">#iterates over all lane types in the direction</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">laneType</span> <span class="o">!=</span> <span class="s1">&#39;CB&#39;</span><span class="p">):</span> <span class="c1">#as long as this lane isn&#39;t the CB lane</span>
+                <span class="k">for</span> <span class="n">lane</span> <span class="ow">in</span> <span class="n">lanes</span><span class="p">:</span> <span class="c1">#iterates over all lanes in the direction</span>
+                    <span class="n">newTime</span> <span class="o">=</span> <span class="n">processGreenLane</span><span class="p">(</span><span class="n">lane</span><span class="p">,</span> <span class="n">iteration</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">oppositeDirection</span><span class="p">,</span> <span class="n">currentTime</span><span class="p">,</span> <span class="n">junction</span><span class="p">)</span> <span class="c1">#processes the lane being green</span>
+                    <span class="n">iteration</span> <span class="o">+=</span> <span class="mi">1</span> <span class="c1">#increments to the next lane</span>
+
+        <span class="k">return</span> <span class="n">newTime</span> <span class="c1">#returns the time after the direction has been processed</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">shouldActivatePedestrianCrossing</span><span class="p">(</span><span class="n">junction</span><span class="p">,</span> <span class="n">currentTime</span><span class="p">,</span> <span class="n">crossingRequests</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Description: Calculates whether there should be a pedestrain crossing given the current time and last pedestrian crossing</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            junction(Junction): junction of the pedestrain crossing</span>
+<span class="sd">            currentTime(float): time of the simulation at the point of the check</span>
+<span class="sd">            crossingRequests(Array): array of times that crossing requests will be made</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            True/False whether a pedestrian crossing has occurred</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">junction</span><span class="o">.</span><span class="n">lastCrossingTime</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">):</span> <span class="c1">#if there has yet to be a crossing time</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">currentTime</span> <span class="o">&gt;</span> <span class="n">crossingRequests</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span> <span class="c1">#check whether the current time is greater than the first crossing time</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">crossingRequests</span><span class="p">)):</span>
+            <span class="c1">#if this crossing request ocurred after the last crossing and before the current time, then a crossing needs to occur</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">crossingRequests</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">junction</span><span class="o">.</span><span class="n">lastCrossingTime</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">crossingRequests</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">currentTime</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+            
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">processWaitingVehiclesLane</span><span class="p">(</span><span class="n">lane</span><span class="p">,</span> <span class="n">currentTime</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Description: Processes the vehicles that have entered the lane up until the currentTime</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            lane(Lane): the lane that the vehicles are being processed in</span>
+<span class="sd">            currentTime(float): the time of the simulation currently</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">#check if the lane has any traffic</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">lane</span><span class="o">.</span><span class="n">totalFlow</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="k">return</span> <span class="c1">#skip if no traffic</span>
+
+        <span class="c1">#if no vehicles have yet to enter the lane</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">lane</span><span class="o">.</span><span class="n">lastCarTime</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">):</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="n">lane</span><span class="o">.</span><span class="n">newCarRate</span> <span class="c1">#starts the time at the time when the first vehicle would enter</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1">#if this isn&#39;t the first green</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="n">lane</span><span class="o">.</span><span class="n">lastCarTime</span> <span class="o">+</span> <span class="n">lane</span><span class="o">.</span><span class="n">newCarRate</span> <span class="c1">#starts the time at the next vehicle entry point</span>
+                    
+        <span class="c1">#iterate whilst the time is less than the current time</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">time</span> <span class="o">&lt;</span> <span class="n">currentTime</span><span class="p">):</span>
+            <span class="n">vehicle</span> <span class="o">=</span> <span class="n">Vehicle</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="c1">#creates the vehicle with the entry time as the time</span>
+            <span class="n">lane</span><span class="o">.</span><span class="n">cars</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">vehicle</span><span class="p">)</span> <span class="c1">#adds the vehicle to the queue</span>
+            <span class="n">lane</span><span class="o">.</span><span class="n">lastCarTime</span> <span class="o">=</span> <span class="n">time</span> <span class="c1">#updates the time that the last vehicle entered</span>
+            <span class="n">lane</span><span class="o">.</span><span class="n">maxQueue</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">lane</span><span class="o">.</span><span class="n">maxQueue</span><span class="p">,</span> <span class="n">lane</span><span class="o">.</span><span class="n">cars</span><span class="o">.</span><span class="n">qsize</span><span class="p">())</span> <span class="c1">#updates the maximum queue if the current queue is now longer</span>
+
+            <span class="n">time</span> <span class="o">+=</span> <span class="n">lane</span><span class="o">.</span><span class="n">newCarRate</span> <span class="c1">#increments the time to when the next vehicle joins</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">processWaitingVehicles</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="n">currentTime</span><span class="p">,</span> <span class="n">CB</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Description: Processes all lanes for the vehicles before the currentTime</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            direction(Direction): the direction object that the vehicles are being processed for</span>
+<span class="sd">            currentTime(float): the time of the simulation</span>
+<span class="sd">            CB(int): whether or not the cycle or bus lane should be processed (1 - Yes, 0 - No)</span>
+<span class="sd">        </span>
+<span class="sd">        Methods:</span>
+<span class="sd">            processWaitingVehiclesLane(lane, currentTime): processes the waiting vehicles for a specific lane</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">currentTime</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">):</span> <span class="c1">#As long as the current time isn&#39;t 0</span>
+            <span class="k">for</span> <span class="n">lane_type</span><span class="p">,</span> <span class="n">lanes</span> <span class="ow">in</span> <span class="n">direction</span><span class="o">.</span><span class="n">lanes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="c1">#iterates over all lane types</span>
+                <span class="k">for</span> <span class="n">lane</span> <span class="ow">in</span> <span class="n">lanes</span><span class="p">:</span> <span class="c1">#iterates over all lanes</span>
+                    <span class="k">if</span><span class="p">((</span><span class="n">lane_type</span> <span class="o">!=</span> <span class="s1">&#39;CB&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">CB</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)):</span> <span class="c1">#as long as the lane isn&#39;t a CB lane or if we should be processing the CB lane</span>
+                        <span class="n">processWaitingVehiclesLane</span><span class="p">(</span><span class="n">lane</span><span class="p">,</span> <span class="n">currentTime</span><span class="p">)</span> <span class="c1">#sends to function to process the lane </span>
+       
+    <span class="n">currentTime</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">simDuration</span> <span class="o">=</span> <span class="mi">3600</span> <span class="c1">#1 hour = 3600 seconds</span>
+
+    <span class="c1">#gets the times that a pedestrian crossing will be made</span>
+    <span class="k">if</span> <span class="n">junction</span><span class="o">.</span><span class="n">isPedestrianCrossing</span><span class="p">:</span>
+        <span class="n">timeBetweenCrossings</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">/</span> <span class="n">junction</span><span class="o">.</span><span class="n">pedCrossPH</span> <span class="c1">#Calculate average time between crossings</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">crossingRequests</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">time</span> <span class="o">&lt;</span> <span class="mi">3600</span><span class="p">):</span>
+            <span class="n">crossingRequests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span> <span class="o">+</span> <span class="n">timeBetweenCrossings</span><span class="p">)</span> <span class="c1">#adds the time of this request to the list</span>
+            <span class="n">time</span> <span class="o">+=</span> <span class="n">timeBetweenCrossings</span> <span class="c1">#increments the time by the next crossing gap</span>
+
+    <span class="c1"># Main simulation loop</span>
+    <span class="k">while</span> <span class="n">currentTime</span> <span class="o">&lt;</span> <span class="n">simDuration</span><span class="p">:</span> <span class="c1">#runs the simulation as long as the time is less than the length of the simulation</span>
+
+        <span class="c1"># Handle pedestrian crossing if enabled</span>
+        <span class="k">if</span> <span class="n">junction</span><span class="o">.</span><span class="n">isPedestrianCrossing</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">shouldActivatePedestrianCrossing</span><span class="p">(</span><span class="n">junction</span><span class="p">,</span> <span class="n">currentTime</span><span class="p">,</span> <span class="n">crossingRequests</span><span class="p">):</span> <span class="c1">#function checks whether there has been a pedestrain request between now and the last cycle</span>
+                <span class="n">currentTime</span> <span class="o">+=</span> <span class="n">junction</span><span class="o">.</span><span class="n">pedestrianCrossingTime</span> <span class="c1">#adds the time of the pedestrain crossing to the time</span>
+                <span class="n">junction</span><span class="o">.</span><span class="n">lastCrossingTime</span> <span class="o">=</span> <span class="n">currentTime</span> <span class="c1">#sets the last time the pedestrian crossing was on to the current time</span>
+
+        <span class="c1"># Process each direction in the junction</span>
+        <span class="k">for</span> <span class="n">directionName</span><span class="p">,</span> <span class="n">direction</span> <span class="ow">in</span> <span class="n">junction</span><span class="o">.</span><span class="n">directions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+            <span class="c1">#find what the opposite direction is</span>
+            <span class="k">match</span> <span class="n">direction</span><span class="o">.</span><span class="n">directionName</span><span class="p">:</span>
+                <span class="k">case</span> <span class="s1">&#39;north&#39;</span><span class="p">:</span>
+                    <span class="n">oppositeDirection</span> <span class="o">=</span> <span class="n">junction</span><span class="o">.</span><span class="n">directions</span><span class="p">[</span><span class="s1">&#39;south&#39;</span><span class="p">]</span>
+                <span class="k">case</span> <span class="s1">&#39;south&#39;</span><span class="p">:</span>
+                    <span class="n">oppositeDirection</span> <span class="o">=</span> <span class="n">junction</span><span class="o">.</span><span class="n">directions</span><span class="p">[</span><span class="s1">&#39;north&#39;</span><span class="p">]</span>
+                <span class="k">case</span> <span class="s1">&#39;west&#39;</span><span class="p">:</span>
+                    <span class="n">oppositeDirection</span> <span class="o">=</span> <span class="n">junction</span><span class="o">.</span><span class="n">directions</span><span class="p">[</span><span class="s1">&#39;east&#39;</span><span class="p">]</span>
+                <span class="k">case</span> <span class="s1">&#39;east&#39;</span><span class="p">:</span>
+                    <span class="n">oppositeDirection</span> <span class="o">=</span> <span class="n">junction</span><span class="o">.</span><span class="n">directions</span><span class="p">[</span><span class="s1">&#39;west&#39;</span><span class="p">]</span>
+
+            <span class="c1">#check if there have been any vehicles entering the junction since the last time</span>
+            <span class="n">processWaitingVehicles</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="n">currentTime</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1">#checks whether this direction has any traffic in it </span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">direction</span><span class="o">.</span><span class="n">hasTraffic</span><span class="p">()</span> <span class="o">==</span> <span class="kc">False</span><span class="p">):</span>
+                <span class="n">currentTime</span> <span class="o">+=</span> <span class="mi">1</span> <span class="c1">#add 1 second to the time if there is no traffic</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span><span class="p">((</span><span class="s1">&#39;CB&#39;</span> <span class="ow">in</span> <span class="n">direction</span><span class="o">.</span><span class="n">lanes</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">direction</span><span class="o">.</span><span class="n">lanes</span><span class="p">[</span><span class="s1">&#39;CB&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">getQueueSize</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)):</span> 
+                    <span class="c1">#if there is a cycle or bus lane, then run this lane first</span>
+                    <span class="n">currentTime</span> <span class="o">=</span> <span class="n">processGreenLane</span><span class="p">(</span><span class="n">direction</span><span class="o">.</span><span class="n">lanes</span><span class="p">[</span><span class="s1">&#39;CB&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">oppositeDirection</span><span class="p">,</span> <span class="n">currentTime</span><span class="p">,</span> <span class="n">junction</span><span class="p">)</span> <span class="c1">#processes the green light</span>
+                    <span class="n">processWaitingVehicles</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="n">currentTime</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1">#processes the waiting vehicles for all but the CB lane</span>
+                    
+                <span class="k">if</span> <span class="n">direction</span><span class="o">.</span><span class="n">hasTraffic</span><span class="p">():</span> <span class="c1">#checks if there is any traffic in the direction</span>
+                    <span class="n">currentTime</span> <span class="o">=</span> <span class="n">processGreen</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="n">oppositeDirection</span><span class="p">,</span> <span class="n">currentTime</span><span class="p">,</span> <span class="n">junction</span><span class="p">)</span> <span class="c1">#process the green light for that direction</span>
+    
+    <span class="k">return</span> <span class="n">endSimulation</span><span class="p">(</span><span class="n">junction</span><span class="p">)</span> <span class="c1">#sends the junction of to have all of the statistics gathered</span></div>
+
+                    
+
+<div class="viewcode-block" id="createSimulation">
+<a class="viewcode-back" href="../simulation.html#simulation.createSimulation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">createSimulation</span><span class="p">(</span><span class="n">inputInformation</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates the simulation with all user inputs</span>
+
+<span class="sd">    Args: </span>
+<span class="sd">        inputInformation(Dictionary) - a dictionary containing the user inputted data</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dictionary: simulationDict - the dictionary containing all information about the simulation run</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">junction</span> <span class="o">=</span> <span class="n">Junction</span><span class="p">(</span><span class="n">inputInformation</span><span class="p">)</span> <span class="c1">#creates the junction</span>
+    <span class="n">junction</span><span class="o">.</span><span class="n">distributeVehicles</span><span class="p">()</span> <span class="c1">#distribute the vehicles within the junction</span>
+
+    <span class="k">if</span> <span class="n">inputInformation</span><span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="c1">#checks whether the user has specified the priority of the directions or not</span>
+        <span class="n">priorityNums</span> <span class="o">=</span> <span class="n">inputInformation</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="c1">#sets the priority numbers to be the priority specified by the user</span>
+    <span class="k">else</span><span class="p">:</span> <span class="c1">#otherwise, if the user has left it to the system to decide</span>
+        <span class="n">priorityNums</span> <span class="o">=</span> <span class="n">junction</span><span class="o">.</span><span class="n">calculateDirectionPriority</span><span class="p">()</span> <span class="c1">#calculates the priority direction numbers and/or the time for the green light in each direction</span>
+
+    <span class="n">junction</span><span class="o">.</span><span class="n">priorityNums</span> <span class="o">=</span> <span class="n">priorityNums</span> <span class="c1">#add the priorityNums to the junction</span>
+    
+
+    <span class="c1">#set the green time of each direction, based off of the priority</span>
+    <span class="n">iteration</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">direction</span> <span class="ow">in</span> <span class="n">junction</span><span class="o">.</span><span class="n">directions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        
+        <span class="c1">#check what the number is for this direction in the priorityNums</span>
+        <span class="k">match</span> <span class="n">priorityNums</span><span class="p">[</span><span class="n">iteration</span><span class="p">]:</span>
+            <span class="k">case</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">direction</span><span class="o">.</span><span class="n">lightTime</span> <span class="o">=</span> <span class="n">junction</span><span class="o">.</span><span class="n">minimumGreenTime</span>
+            <span class="k">case</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">direction</span><span class="o">.</span><span class="n">lightTime</span> <span class="o">=</span> <span class="n">junction</span><span class="o">.</span><span class="n">minimumGreenTime</span> <span class="o">*</span> <span class="mf">1.25</span>
+            <span class="k">case</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">direction</span><span class="o">.</span><span class="n">lightTime</span> <span class="o">=</span> <span class="n">junction</span><span class="o">.</span><span class="n">minimumGreenTime</span> <span class="o">*</span> <span class="mf">1.5</span>
+            <span class="k">case</span> <span class="mi">4</span><span class="p">:</span>
+                <span class="n">direction</span><span class="o">.</span><span class="n">lightTime</span> <span class="o">=</span> <span class="n">junction</span><span class="o">.</span><span class="n">minimumGreenTime</span> <span class="o">*</span> <span class="mf">1.75</span>
+
+        <span class="k">for</span> <span class="n">laneType</span><span class="p">,</span> <span class="n">lanes</span> <span class="ow">in</span> <span class="n">direction</span><span class="o">.</span><span class="n">lanes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">lane</span> <span class="ow">in</span> <span class="n">lanes</span><span class="p">:</span>
+                <span class="n">lane</span><span class="o">.</span><span class="n">lightTime</span> <span class="o">=</span> <span class="n">direction</span><span class="o">.</span><span class="n">lightTime</span> <span class="c1">#set the light time within each lane to be the same as its parent direction</span>
+
+        <span class="n">iteration</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+    <span class="k">return</span> <span class="n">runSimulation</span><span class="p">(</span><span class="n">junction</span><span class="p">)</span> <span class="c1">#runs the simulation once it has been successfully created</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Andreas Masterton, Jingwei Liu, Lewis Ford, Rishi Devarakonda, Sreyas Nagarajan, Subomi Olatunji Orisatade.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

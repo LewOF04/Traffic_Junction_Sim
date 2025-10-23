@@ -1,0 +1,401 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>db_functions package &mdash; Traffic Wizard 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="direction module" href="direction.html" />
+    <link rel="prev" title="app module" href="app.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Traffic Wizard
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="app.html">app module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">db_functions package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-db_functions.db_functions">db_functions.db_functions module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#db_functions.db_functions.check_symmetry"><code class="docutils literal notranslate"><span class="pre">check_symmetry()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#db_functions.db_functions.close_conn"><code class="docutils literal notranslate"><span class="pre">close_conn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#db_functions.db_functions.create_subkey"><code class="docutils literal notranslate"><span class="pre">create_subkey()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#db_functions.db_functions.execute_inject_query"><code class="docutils literal notranslate"><span class="pre">execute_inject_query()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#db_functions.db_functions.execute_sql_file_noinject"><code class="docutils literal notranslate"><span class="pre">execute_sql_file_noinject()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#db_functions.db_functions.getZScore"><code class="docutils literal notranslate"><span class="pre">getZScore()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#db_functions.db_functions.get_conn"><code class="docutils literal notranslate"><span class="pre">get_conn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#db_functions.db_functions.get_cursor"><code class="docutils literal notranslate"><span class="pre">get_cursor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#db_functions.db_functions.get_pk"><code class="docutils literal notranslate"><span class="pre">get_pk()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#db_functions.db_functions.init_db"><code class="docutils literal notranslate"><span class="pre">init_db()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#db_functions.db_functions.metaphor"><code class="docutils literal notranslate"><span class="pre">metaphor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#db_functions.db_functions.offset"><code class="docutils literal notranslate"><span class="pre">offset()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-db_functions">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="direction.html">direction module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="junction.html">junction module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lane.html">lane module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation.html">simulation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="txt_creation.html">txt_creation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vehicle.html">vehicle module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Traffic Wizard</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">src</a></li>
+      <li class="breadcrumb-item active">db_functions package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/db_functions.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="db-functions-package">
+<h1>db_functions package<a class="headerlink" href="#db-functions-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-db_functions.db_functions">
+<span id="db-functions-db-functions-module"></span><h2>db_functions.db_functions module<a class="headerlink" href="#module-db_functions.db_functions" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="db_functions.db_functions.check_symmetry">
+<span class="sig-prename descclassname"><span class="pre">db_functions.db_functions.</span></span><span class="sig-name descname"><span class="pre">check_symmetry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">openssl_sha256</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/db_functions/db_functions.html#check_symmetry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#db_functions.db_functions.check_symmetry" title="Link to this definition"></a></dt>
+<dd><p>Compute hash values generated by rotational symmetry of junctions</p>
+<dl class="simple">
+<dt>Description:</dt><dd><p>Calculate each hash value generated by equivalent junction configurations by considering the implications of rotational symmetry</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>params</strong> (<em>dict</em>) – The dictionary with input parameters.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of hash values for equivalent junction configurations.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[hashlib.sha256]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="db_functions.db_functions.close_conn">
+<span class="sig-prename descclassname"><span class="pre">db_functions.db_functions.</span></span><span class="sig-name descname"><span class="pre">close_conn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Connection</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/db_functions/db_functions.html#close_conn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#db_functions.db_functions.close_conn" title="Link to this definition"></a></dt>
+<dd><p>close the connection</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>conn</strong> (<em>sqlite3.Connection</em>) – The sqlite3 connection object</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True upon success, otherwise False</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool (bool)</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TypeError</strong> – conn must be a valid sqlite3.Connection object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="db_functions.db_functions.create_subkey">
+<span class="sig-prename descclassname"><span class="pre">db_functions.db_functions.</span></span><span class="sig-name descname"><span class="pre">create_subkey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/db_functions/db_functions.html#create_subkey"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#db_functions.db_functions.create_subkey" title="Link to this definition"></a></dt>
+<dd><p>Creates the subkey used by the &lt;TODO&gt; retrieve get_equivalent_junctions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>d</strong> (<em>dict</em>) – A dictionary of inbound and outbound traffic</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The hash of the corresponding string</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>s (str)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="db_functions.db_functions.execute_inject_query">
+<span class="sig-prename descclassname"><span class="pre">db_functions.db_functions.</span></span><span class="sig-name descname"><span class="pre">execute_inject_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Connection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PathLike</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">close_conn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_as_df</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Cursor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/db_functions/db_functions.html#execute_inject_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#db_functions.db_functions.execute_inject_query" title="Link to this definition"></a></dt>
+<dd><p>Wrapper function for executing sql queries using sqlite3 in python.</p>
+<dl class="simple">
+<dt>Description:</dt><dd><p>Intended to handle parameterized sql queries for both read and write operations.
+Can also handle queries that do not have any addtional parameters (in this case, leave args empty).
+The query can either be read from an external .sql file, or can be passed directly as an argument.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>conn</strong> (<em>sqlite3.Connection</em>) – The sqlite3 connection object</p></li>
+<li><p><strong>query</strong> (<em>str</em><em>, </em><em>os.PathLike</em>) – The sql query, or path to external .sql query</p></li>
+<li><p><strong>close_conn</strong> (<em>bool</em>) – Option to close the connection for write queries or leave it open for read queries. Default is True.</p></li>
+<li><p><strong>*args</strong> (<em>any</em><em>, </em><em>...</em>) – the optional injection arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns the cursor.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>out (sqlite3.Cursor)</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – Ensure that the query is either the path to a file or a string</p></li>
+<li><p><strong>sqlite3.DatabaseError</strong> – Ensure that valid arguments are being passed</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="db_functions.db_functions.execute_sql_file_noinject">
+<span class="sig-prename descclassname"><span class="pre">db_functions.db_functions.</span></span><span class="sig-name descname"><span class="pre">execute_sql_file_noinject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PathLike</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PathLike</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/db_functions/db_functions.html#execute_sql_file_noinject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#db_functions.db_functions.execute_sql_file_noinject" title="Link to this definition"></a></dt>
+<dd><p>Wrapper function for executing sql files or strings containing multiple queries.</p>
+<dl class="simple">
+<dt>Description:</dt><dd><p>Extension of the execute_inject_query function, for sql files that include multiple queries and do not requre additional arguments.
+Mainly intended for the initial setup of the database.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>db</strong> (<em>str</em><em>, </em><em>os.PathLike</em>) – The path to the database</p></li>
+<li><p><strong>query</strong> (<em>str</em><em>, </em><em>os.PathLike</em>) – The sql query, or path to external .sql query</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True upon success, false otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – Ensure that the query is either the path to a file or a string</p></li>
+<li><p><strong>sqlite3.DatabaseError</strong> – Ensure that valid arguments are being passed</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="db_functions.db_functions.getZScore">
+<span class="sig-prename descclassname"><span class="pre">db_functions.db_functions.</span></span><span class="sig-name descname"><span class="pre">getZScore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">waiting_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/db_functions/db_functions.html#getZScore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#db_functions.db_functions.getZScore" title="Link to this definition"></a></dt>
+<dd><p>Function to calculate Z Score for waiting time</p>
+<dl class="simple">
+<dt>Assumptions:</dt><dd><p><a class="reference external" href="https://www.patonsinsurance.co.uk/how-long-to-you-spend-waiting-at-traffic-lights/#:~:text=While%20it%20might%20seem%20like%20an%20eternity%20waiting,or%20air%20conditioning%20or%20grabbing%20a%20quick%20snack">https://www.patonsinsurance.co.uk/how-long-to-you-spend-waiting-at-traffic-lights/#:~:text=While%20it%20might%20seem%20like%20an%20eternity%20waiting,or%20air%20conditioning%20or%20grabbing%20a%20quick%20snack</a>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>waiting_time</strong> (<em>int</em>) – The waiting time</p></li>
+<li><p><strong>mean</strong> (<em>int</em>) – The average waiting time at traffic lights, default is 75 seconds</p></li>
+<li><p><strong>std</strong> (<em>int</em>) – The average standard deviation time at traffic lights, default is 15 seconds</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Percentile rank based on expected real-world waiting times.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">getZScore</span><span class="p">(</span><span class="mi">75</span><span class="p">))</span>
+<span class="gp">... </span><span class="mi">50</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="db_functions.db_functions.get_conn">
+<span class="sig-prename descclassname"><span class="pre">db_functions.db_functions.</span></span><span class="sig-name descname"><span class="pre">get_conn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PathLike</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Connection</span></span></span><a class="reference internal" href="_modules/db_functions/db_functions.html#get_conn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#db_functions.db_functions.get_conn" title="Link to this definition"></a></dt>
+<dd><p>get the sqlite3 connection object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em><em>, </em><em>os.PathLike</em>) – The path to the database</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An sqlite3 connection object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>conn (sqlite3.Connection)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="db_functions.db_functions.get_cursor">
+<span class="sig-prename descclassname"><span class="pre">db_functions.db_functions.</span></span><span class="sig-name descname"><span class="pre">get_cursor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Connection</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Cursor</span></span></span><a class="reference internal" href="_modules/db_functions/db_functions.html#get_cursor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#db_functions.db_functions.get_cursor" title="Link to this definition"></a></dt>
+<dd><p>get the cursor object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>conn</strong> (<em>sqlite3.Connection</em>) – The connection object</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A cursor object used to execute queries in sqlite3</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>cur (sqlite3.Cursor)</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TypeError</strong> – conn must be a valid sqlite3.Connection object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="db_functions.db_functions.get_pk">
+<span class="sig-prename descclassname"><span class="pre">db_functions.db_functions.</span></span><span class="sig-name descname"><span class="pre">get_pk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">openssl_sha256</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/db_functions/db_functions.html#get_pk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#db_functions.db_functions.get_pk" title="Link to this definition"></a></dt>
+<dd><p>Compute hash values generated by rotational symmetry of junctions</p>
+<dl class="simple">
+<dt>Description:</dt><dd><p>Calculate each hash value generated by equivalent junction configurations by considering the implications of rotational symmetry</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>params</strong> (<em>dict</em>) – The dictionary with input parameters.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of hash values for equivalent junction configurations.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[hashlib.sha256]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="db_functions.db_functions.init_db">
+<span class="sig-prename descclassname"><span class="pre">db_functions.db_functions.</span></span><span class="sig-name descname"><span class="pre">init_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PathLike</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'data/example.db'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PathLike</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'inst/SQL/sample_create.sql'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/db_functions/db_functions.html#init_db"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#db_functions.db_functions.init_db" title="Link to this definition"></a></dt>
+<dd><p>Initialize Database in default location</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em><em>, </em><em>os.PathLike</em>) – The path to the database</p></li>
+<li><p><strong>table</strong> (<em>str</em><em>, </em><em>os.PathLike</em>) – The path to the query to create the table</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – Caused by invalid path</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="db_functions.db_functions.metaphor">
+<span class="sig-prename descclassname"><span class="pre">db_functions.db_functions.</span></span><span class="sig-name descname"><span class="pre">metaphor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/db_functions/db_functions.html#metaphor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#db_functions.db_functions.metaphor" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="db_functions.db_functions.offset">
+<span class="sig-prename descclassname"><span class="pre">db_functions.db_functions.</span></span><span class="sig-name descname"><span class="pre">offset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/db_functions/db_functions.html#offset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#db_functions.db_functions.offset" title="Link to this definition"></a></dt>
+<dd><p>Offset a list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lst</strong> (<em>list</em>) – The list that we want to offset</p></li>
+<li><p><strong>i</strong> (<em>int</em>) – The amount we want to offset by</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The offset list</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-db_functions">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-db_functions" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="app.html" class="btn btn-neutral float-left" title="app module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="direction.html" class="btn btn-neutral float-right" title="direction module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Andreas Masterton, Jingwei Liu, Lewis Ford, Rishi Devarakonda, Sreyas Nagarajan, Subomi Olatunji Orisatade.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

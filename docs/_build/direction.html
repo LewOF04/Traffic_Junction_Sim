@@ -1,0 +1,318 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>direction module &mdash; Traffic Wizard 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="junction module" href="junction.html" />
+    <link rel="prev" title="db_functions package" href="db_functions.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Traffic Wizard
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="app.html">app module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="db_functions.html">db_functions package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">direction module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#direction.Direction"><code class="docutils literal notranslate"><span class="pre">Direction</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#direction.Direction.directionName"><code class="docutils literal notranslate"><span class="pre">Direction.directionName</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#direction.Direction.lightTime"><code class="docutils literal notranslate"><span class="pre">Direction.lightTime</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#direction.Direction.lanes"><code class="docutils literal notranslate"><span class="pre">Direction.lanes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#direction.Direction.VPHFlowDirections"><code class="docutils literal notranslate"><span class="pre">Direction.VPHFlowDirections</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#direction.Direction.laneLayout"><code class="docutils literal notranslate"><span class="pre">Direction.laneLayout</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#direction.Direction.__init__"><code class="docutils literal notranslate"><span class="pre">Direction.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#direction.Direction.hasTraffic"><code class="docutils literal notranslate"><span class="pre">Direction.hasTraffic()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#direction.Direction.distributeVehiclesByLane"><code class="docutils literal notranslate"><span class="pre">Direction.distributeVehiclesByLane()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">Direction.distributeVehiclesByLane()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">Direction.hasTraffic()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="junction.html">junction module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lane.html">lane module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation.html">simulation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="txt_creation.html">txt_creation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vehicle.html">vehicle module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Traffic Wizard</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">src</a></li>
+      <li class="breadcrumb-item active">direction module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/direction.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-direction">
+<span id="direction-module"></span><h1>direction module<a class="headerlink" href="#module-direction" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="direction.Direction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">direction.</span></span><span class="sig-name descname"><span class="pre">Direction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flows</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">laneInput</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/direction.html#Direction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#direction.Direction" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Description: The class object containing all direction information</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="direction.Direction.directionName">
+<span class="sig-name descname"><span class="pre">directionName</span></span><a class="headerlink" href="#direction.Direction.directionName" title="Link to this definition"></a></dt>
+<dd><p>the name of the direction</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="direction.Direction.lightTime">
+<span class="sig-name descname"><span class="pre">lightTime</span></span><a class="headerlink" href="#direction.Direction.lightTime" title="Link to this definition"></a></dt>
+<dd><p>the time that the light for this direction should be on for</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="direction.Direction.lanes">
+<span class="sig-name descname"><span class="pre">lanes</span></span><a class="headerlink" href="#direction.Direction.lanes" title="Link to this definition"></a></dt>
+<dd><p>the dictionary containing all of the lanes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="direction.Direction.VPHFlowDirections">
+<span class="sig-name descname"><span class="pre">VPHFlowDirections</span></span><a class="headerlink" href="#direction.Direction.VPHFlowDirections" title="Link to this definition"></a></dt>
+<dd><p>the VPH for each heading for this direction (Left, Straight, Right)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array(int)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="direction.Direction.laneLayout">
+<span class="sig-name descname"><span class="pre">laneLayout</span></span><a class="headerlink" href="#direction.Direction.laneLayout" title="Link to this definition"></a></dt>
+<dd><p>the array of strings inidcating the types of lanes in the direction</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array(string)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="direction.Direction.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flows</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">laneInput</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputInformation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/direction.html#Direction.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#direction.Direction.__init__" title="Link to this definition"></a></dt>
+<dd><p>initialises the direction object</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="direction.Direction.hasTraffic">
+<span class="sig-name descname"><span class="pre">hasTraffic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/direction.html#Direction.hasTraffic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#direction.Direction.hasTraffic" title="Link to this definition"></a></dt>
+<dd><p>indicates whether or not there is any traffic within this direction</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="direction.Direction.distributeVehiclesByLane">
+<span class="sig-name descname"><span class="pre">distributeVehiclesByLane</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/direction.html#Direction.distributeVehiclesByLane"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#direction.Direction.distributeVehiclesByLane" title="Link to this definition"></a></dt>
+<dd><p>distributes the VPH for this direction between the lanes optimally</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">distributeVehiclesByLane</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/direction.html#Direction.distributeVehiclesByLane"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>Distribute the vehicle traffic through all of the lanes within this direction to balance vehicle flows optimally</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>distributed</strong> (<em>self - the direction which is being</em>)</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="direction.Direction.distributeLRorLRS">
+<span class="sig-name descname"><span class="pre">distributeLRorLRS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">laneType</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#direction.Direction.distributeLRorLRS" title="Link to this definition"></a></dt>
+<dd><p>handles traffic distribution if there is an LR or LRS lane in the direction</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="direction.Direction.distributeS">
+<span class="sig-name descname"><span class="pre">distributeS</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#direction.Direction.distributeS" title="Link to this definition"></a></dt>
+<dd><p>handles traffic distribution if there is an S lane in the direction</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="direction.Direction.distributeElse">
+<span class="sig-name descname"><span class="pre">distributeElse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#direction.Direction.distributeElse" title="Link to this definition"></a></dt>
+<dd><p>handles traffic distribution if there is no LRS, LR or S lane in the junction</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="direction.Direction.maxRSGTminRight">
+<span class="sig-name descname"><span class="pre">maxRSGTminRight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maxRS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minRight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">changeMade</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RCounter</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#direction.Direction.maxRSGTminRight" title="Link to this definition"></a></dt>
+<dd><p>moves right traffic from RS to R</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="direction.Direction.maxLSGTminLeft">
+<span class="sig-name descname"><span class="pre">maxLSGTminLeft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maxLS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minLeft</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">changeMade</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LCounter</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#direction.Direction.maxLSGTminLeft" title="Link to this definition"></a></dt>
+<dd><p>moves left traffic from LS to L</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="direction.Direction.maxLSGTminStraight">
+<span class="sig-name descname"><span class="pre">maxLSGTminStraight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maxLS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minStraight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">changeMade</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SCounter</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#direction.Direction.maxLSGTminStraight" title="Link to this definition"></a></dt>
+<dd><p>moves straight traffic from LS to S</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="direction.Direction.maxRSGTminStraight">
+<span class="sig-name descname"><span class="pre">maxRSGTminStraight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maxRS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minStraight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">changeMade</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SCounter</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#direction.Direction.maxRSGTminStraight" title="Link to this definition"></a></dt>
+<dd><p>moves straight traffic from RS to S</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="direction.Direction.maxLSGTmaxRS">
+<span class="sig-name descname"><span class="pre">maxLSGTmaxRS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maxLS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxRS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">changeMade</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#direction.Direction.maxLSGTmaxRS" title="Link to this definition"></a></dt>
+<dd><p>moves straight traffic from LS to RS</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="direction.Direction.maxRSGTmaxLS">
+<span class="sig-name descname"><span class="pre">maxRSGTmaxLS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maxRS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxLS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">changeMade</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#direction.Direction.maxRSGTmaxLS" title="Link to this definition"></a></dt>
+<dd><p>moves straight traffic from RS to LS</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="direction.Direction.minRightGTmaxRS">
+<span class="sig-name descname"><span class="pre">minRightGTmaxRS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minRight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxRS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">changeMade</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RCounter</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#direction.Direction.minRightGTmaxRS" title="Link to this definition"></a></dt>
+<dd><p>moves right traffic from R to RS</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="direction.Direction.minLeftGTmaxLS">
+<span class="sig-name descname"><span class="pre">minLeftGTmaxLS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minLeft</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxLS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">changeMade</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LCounter</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#direction.Direction.minLeftGTmaxLS" title="Link to this definition"></a></dt>
+<dd><p>moves left traffic from L to LS</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="direction.Direction.minStraightGTmaxRS">
+<span class="sig-name descname"><span class="pre">minStraightGTmaxRS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minStraight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxRS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">changeMade</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SCounter</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#direction.Direction.minStraightGTmaxRS" title="Link to this definition"></a></dt>
+<dd><p>moves straight traffic from S to RS</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="direction.Direction.minStraightGTmaxLS">
+<span class="sig-name descname"><span class="pre">minStraightGTmaxLS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minStraight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxLS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">changeMade</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SCounter</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#direction.Direction.minStraightGTmaxLS" title="Link to this definition"></a></dt>
+<dd><p>moves straight traffic from S to LS</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">hasTraffic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/direction.html#Direction.hasTraffic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd><p>Checks through each lane to see if there is any traffic within the queues</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if there is traffic in any lane, False if there is no traffic</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="db_functions.html" class="btn btn-neutral float-left" title="db_functions package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="junction.html" class="btn btn-neutral float-right" title="junction module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Andreas Masterton, Jingwei Liu, Lewis Ford, Rishi Devarakonda, Sreyas Nagarajan, Subomi Olatunji Orisatade.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

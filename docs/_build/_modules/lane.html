@@ -1,0 +1,211 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lane &mdash; Traffic Wizard 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Traffic Wizard
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Traffic Wizard</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">lane</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for lane</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">queue</span><span class="w"> </span><span class="kn">import</span> <span class="n">Queue</span>
+<div class="viewcode-block" id="laneOrdering">
+<a class="viewcode-back" href="../lane.html#lane.laneOrdering">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">laneOrdering</span><span class="p">(</span><span class="n">lanes</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description: Orders the array of lanes into the correct order</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        lanes(Array): an array representing the lanes of a junction direction.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        array: the lanes of a junction direction, with the lanes in the correct order from left to right.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#note that a junction must follow the rule: LRS xor S xor LR</span>
+    <span class="n">laneOrder</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;L&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;CB&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;LS&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;LRS&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;LR&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;RS&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="kc">None</span><span class="p">:</span> <span class="mi">8</span><span class="p">}</span> <span class="c1">#this is the required ordering of the junction lane types</span>
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">lanes</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">laneOrder</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="c1">#uses sorted to order the array based on the laneOrder</span></div>
+
+
+
+<div class="viewcode-block" id="Lane">
+<a class="viewcode-back" href="../lane.html#lane.Lane">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Lane</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Description: object containing all of the information about a lane</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        directionFlow(array(int)): an array of the VPH of traffic for each direction [LeftVPH, StraightVPH, RightVPH]</span>
+<span class="sd">        totalFlow(int): the total VPH of traffic for the direction</span>
+<span class="sd">        lastCarTime(float): the time that the last vehicle entered the lane whilst running the direction</span>
+<span class="sd">        avgWait(float): the average wait of a vehicle in this lane between entering and leaving the lane</span>
+<span class="sd">        maxQueue(int): the longest queue of vehicles in this lane</span>
+<span class="sd">        maxWait(float): the longest wait of a vehicle in this lane</span>
+<span class="sd">        numCarsPassed(int): the number of vehicles that have passed through this lane</span>
+<span class="sd">        cars(Queue(Vehicle)): the queue of vehicle objects</span>
+<span class="sd">        newCarRate(float): how long is takes for a car to enter the lane</span>
+<span class="sd">        lightTime(float): the time that the light of this lane will be on for</span>
+<span class="sd">        totalWait(float): the total wait time of all vehicles in this lane</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        getQueueSize(self): gives the size of the queue in the lane</span>
+<span class="sd">        updateDirectionFlow(self, flow, flowType, updateType): Sets the flow of the lane and the newCarRate based on the new flow</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Description: Initialises the lane object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">directionFlow</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>  <span class="c1"># the VPH of the vehicles going through this lane [Left, Straight, Right]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">totalFlow</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># the total flow of the lane</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lastCarTime</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># the time when this lane last had a green light</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">avgWait</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># the average wait time of vehicles in this lane</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxQueue</span> <span class="o">=</span> <span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span>  <span class="c1"># the maximum length of the queue in this lane</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxWait</span> <span class="o">=</span> <span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span>  <span class="c1"># the maximum wait time for a vehicle in this lane</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numCarsPassed</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># the number of cars that have passed through this lane</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cars</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">()</span>  <span class="c1"># the queue that will store all of the vehicles</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newCarRate</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># the # of seconds between cars entering this lane</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lightTime</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># the time that the green light will be on</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">totalWait</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+<div class="viewcode-block" id="Lane.getQueueSize">
+<a class="viewcode-back" href="../lane.html#lane.Lane.getQueueSize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getQueueSize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Description: Returns the size of the queue of cars in the lane</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            self(Lane): the lane in question</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: the number of vehicles in the lane&#39;s queue</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cars</span><span class="o">.</span><span class="n">qsize</span><span class="p">()</span>  <span class="c1"># return the size of the queue in the lane</span></div>
+
+
+<div class="viewcode-block" id="Lane.updateDirectionFlow">
+<a class="viewcode-back" href="../lane.html#lane.Lane.updateDirectionFlow">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">updateDirectionFlow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flow</span><span class="p">,</span> <span class="n">flowType</span><span class="p">,</span> <span class="n">updateType</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Description: Sets the flow of the lane and the newCarRate based on the new flow</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            flow(int): the VPH that is being updated</span>
+<span class="sd">            flowType(int): which direction the flow is heading (0 = Left, 1 = Straight, 2 = Right)</span>
+<span class="sd">            updateType(string): how the update should occur (&#39;add&#39; = add the flow to the current flow, &#39;sub&#39; = subtract the flow from the current flow, &#39;rep&#39; = replace the current flow with the new flow)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># if (self.directionFlow[flowType] == None):  # checks whether there hasn&#39;t been an entry to the direction flow already</span>
+        <span class="c1">#     self.directionFlow[flowType] = 0  # if there hasn&#39;t then initialise it to 0</span>
+
+        <span class="k">if</span> <span class="n">updateType</span> <span class="o">==</span> <span class="s1">&#39;add&#39;</span><span class="p">:</span>  <span class="c1"># if the user is adding to the current flow</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">directionFlow</span><span class="p">[</span><span class="n">flowType</span><span class="p">]</span> <span class="o">+=</span> <span class="n">flow</span>  <span class="c1"># add the new flow to the lanes current direction flow</span>
+
+        <span class="k">if</span> <span class="n">updateType</span> <span class="o">==</span> <span class="s1">&#39;sub&#39;</span><span class="p">:</span>  <span class="c1"># if the user is taking away from the flow</span>
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">directionFlow</span><span class="p">[</span><span class="n">flowType</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>  <span class="c1"># check that the user is not taking away from a 0 number</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                    <span class="s2">&quot;Cannot subtract from 0 flow.&quot;</span><span class="p">)</span>  <span class="c1"># throws an error if it is attempting to take away from 0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">directionFlow</span><span class="p">[</span><span class="n">flowType</span><span class="p">]</span> <span class="o">-=</span> <span class="n">flow</span>  <span class="c1"># take away the new flow to the lanes current direction flow</span>
+
+        <span class="k">if</span> <span class="n">updateType</span> <span class="o">==</span> <span class="s1">&#39;rep&#39;</span><span class="p">:</span>  <span class="c1"># if the user is replacing the current flow</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">directionFlow</span><span class="p">[</span><span class="n">flowType</span><span class="p">]</span> <span class="o">=</span> <span class="n">flow</span>  <span class="c1"># define the new flow</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">totalFlow</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">directionFlow</span><span class="p">)</span>  <span class="c1"># updates the total flow variable</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">totalFlow</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">newCarRate</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">newCarRate</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">totalFlow</span>  <span class="c1"># sets the time between new cars, based on the new flow</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Andreas Masterton, Jingwei Liu, Lewis Ford, Rishi Devarakonda, Sreyas Nagarajan, Subomi Olatunji Orisatade.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
