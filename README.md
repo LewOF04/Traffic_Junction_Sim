@@ -4,6 +4,8 @@ Welcome to Traffic Wizard! A program designed to simulate traffic flows at a jun
 
 Additional notes of this repository owner: This was a group project created between 6 students. My role within this was the production of the simulation logic and code, this includes the running of the simulation as well as all of the prepatory work after error validation from the entry form.
 
+The easiest way to run this project is to download the pex related to your operating system. These are located in the zip files named for each OS. If there are any issues, please find further instructions below.
+
 ### Deploying the Traffic Wizard
 The traffic wizard is mostly self contained, however there are some things that need to be kept in mind when running it. 
 
@@ -56,3 +58,4 @@ will default to the system it is being executed on.
 
 ### Accessing Documentation
 To see the code documentation, navigate to docs/_build/index.html and open it in your browser
+
